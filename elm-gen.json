@@ -1,0 +1,11 @@
+{
+  "moduleBase": "Gen",
+  "modules": {
+    "SeaFood": { "Enum": { "sorts": ["Fish", "Octopus", "Lobster"] } },
+    "Vegetable": {
+      "Enum": {
+        "sorts": ["Potato", "Carrot", "Tomato", "Onion", "Cucumber", "Broccoli"]
+      }
+    }
+  }
+}

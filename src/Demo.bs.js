@@ -2,6 +2,70 @@
 'use strict';
 
 
-console.log("Hello, World!");
+const Handlebars = require("handlebars")
+const fs = require("fs")
+;
 
+const elmGen = "elm-gen"
+;
+
+//Register additional functions
+Handlebars.registerHelper('capitalize', function (aString) {
+    return aString[0].toUpperCase() + aString.substring(1);
+})
+Handlebars.registerHelper('decapitalize', function (aString) {
+    return aString[0].toLowerCase() + aString.substring(1);
+})
+;
+
+function constructData(moduleBase, moduleName, template, baseData) {
+  baseData.moduleBase = moduleBase;
+  baseData.moduleName = moduleName;
+  baseData.template = template;
+  return baseData;
+}
+
+function generateModule(moduleBase,moduleName) {
+    return module => {
+        //construct data
+        const data = constructData(moduleBase,moduleName,module[0], module[1])
+        console.log(data)
+
+        try {
+            //read template
+            const templateData = fs.readFileSync("." + elmGen + "/templates/" + data.template + ".elm", "utf8")
+        
+            //compile files
+            const template = Handlebars.compile(templateData,{strict : true})
+            const output = template(data)
+            const dir = ("." + elmGen + "/generated/") + data.moduleBase.replace(".","/") + ("/" + data.template)
+            const generatedPath =  dir + "/" + data.moduleName  + ".elm"
+
+            //create folder structure
+            if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+            
+            //create file
+            fs.writeFileSync(generatedPath, output, {flag : "w+"})
+        } catch (err) {
+            console.error(err)
+        }
+    }
+}
+;
+
+try { 
+    //Read json structure
+    const json = JSON.parse(fs.readFileSync(elmGen + ".json", "utf8"))
+    Object.entries(json.modules)
+        .forEach(modules => {
+            const moduleName = modules[0]
+            Object.entries(modules[1])
+                .forEach(generateModule(json.moduleBase,moduleName))
+        });
+} catch (err) {
+    console.error(err)
+}
+;
+
+exports.constructData = constructData;
 /*  Not a pure module */

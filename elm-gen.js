@@ -1,11 +1,9 @@
-%%raw(`
+"use strict";
+
 const Handlebars = require("handlebars")
 const fs = require("fs")
-`)
 
-%%raw(`const elmGen = "elm-gen"`)
-
-%%raw(`
+const ELM_GEN = "elm-gen"
 
 //Register additional functions
 Handlebars.registerHelper('capitalize', function (aString) {
@@ -14,31 +12,24 @@ Handlebars.registerHelper('capitalize', function (aString) {
 Handlebars.registerHelper('decapitalize', function (aString) {
     return aString[0].toLowerCase() + aString.substring(1);
 })
-`)
 
-let constructData = (moduleBase, moduleName, template, baseData) => {
-  let data = baseData
-  data["moduleBase"] = moduleBase
-  data["moduleName"] = moduleName
-  data["template"] = template
-  data
-}
-
-%%raw(`
 function generateModule(moduleBase,moduleName) {
     return module => {
         //construct data
-        const data = constructData(moduleBase,moduleName,module[0], module[1])
+        const data = module[1]
+        data.moduleBase = moduleBase
+        data.moduleName = moduleName
+        data.template = module[0]
         console.log(data)
 
         try {
             //read template
-            const templateData = fs.readFileSync("." + elmGen + "/templates/" + data.template + ".elm", "utf8")
+            const templateData = fs.readFileSync("." + ELM_GEN + "/templates/" + data.template + ".elm", "utf8")
         
             //compile files
             const template = Handlebars.compile(templateData,{strict : true})
             const output = template(data)
-            const dir = ("." + elmGen + "/generated/") + data.moduleBase.replace(".","/") + ("/" + data.template)
+            const dir = ("." + ELM_GEN + "/generated/") + data.moduleBase.replace(".","/") + ("/" + data.template)
             const generatedPath =  dir + "/" + data.moduleName  + ".elm"
 
             //create folder structure
@@ -50,12 +41,11 @@ function generateModule(moduleBase,moduleName) {
             console.error(err)
         }
     }
-}`)
+}
 
-%%raw(`
 try { 
     //Read json structure
-    const json = JSON.parse(fs.readFileSync(elmGen + ".json", "utf8"))
+    const json = JSON.parse(fs.readFileSync(ELM_GEN + ".json", "utf8"))
     Object.entries(json.modules)
         .forEach(modules => {
             const moduleName = modules[0]
@@ -65,4 +55,4 @@ try {
 } catch (err) {
     console.error(err)
 }
-`)
+
