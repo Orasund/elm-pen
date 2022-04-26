@@ -19,30 +19,34 @@ Handlebars.registerHelper("decapitalize", (function (aString) {
 
 function constructData(moduleBase, moduleName, template, baseData) {
   baseData.moduleBase = moduleBase;
-  baseData.moduleName = moduleName;
   baseData.template = template;
+  baseData.moduleName = moduleName;
   return baseData;
 }
 
-function generateModule(moduleBase, moduleName, template, baseData) {
-  var data = constructData(moduleBase, moduleName, template, baseData);
-  console.log(data);
+function generateModule(generateInto, templatesFrom, data) {
+  var moduleBase = data.moduleBase;
+  var moduleName = data.moduleName;
+  var template = data.template;
   try {
-    var templateData = Fs.readFileSync(".elm-gen/templates/" + data.template + ".elm", "utf8");
-    var template$1 = Handlebars.compile(templateData, {
+    var templateData = Fs.readFileSync(templatesFrom + "/" + template + ".elm", "utf8");
+    var moduleTemplate = Handlebars.compile(templateData, {
           strict: true
         });
-    var output = template$1(data);
-    var dir = ".elm-gen/generated/" + data.moduleBase.replace(".", "/") + ("/" + data.template);
-    var generatedPath = dir + "/" + data.moduleName + ".elm";
+    var output = moduleTemplate(data);
+    var namespace = moduleBase.replace(".", "/");
+    var dir = generateInto + "/" + namespace + "/" + template;
+    var generatedPath = dir + "/" + moduleName + ".elm";
     if (!Fs.existsSync(dir)) {
       Fs.mkdirSync(dir, {
             recursive: true
           });
     }
-    return Fs.writeFileSync(generatedPath, output, {
-                flag: "w+"
-              });
+    Fs.writeFileSync(generatedPath, output, {
+          flag: "w+"
+        });
+    console.log("⭐ Generated " + template + " " + moduleName);
+    return ;
   }
   catch (raw_err){
     var err = Caml_js_exceptions.internalToOCamlException(raw_err);
@@ -55,12 +59,12 @@ function generateModule(moduleBase, moduleName, template, baseData) {
 }
 
 try {
-  var json = JSON.parse(Fs.readFileSync("elm-gen.json", "utf8"));
+  var json = JSON.parse(Fs.readFileSync(elmGen + ".json", "utf8"));
   Js_dict.entries(json.modules).forEach(function (tup) {
         var moduleName = tup[0];
-        var moduleBase = json.moduleBase;
         Js_dict.entries(tup[1]).forEach(function (tuple) {
-              return generateModule(moduleBase, moduleName, tuple[0], tuple[1]);
+              var data = constructData(json.moduleBase, moduleName, tuple[0], tuple[1]);
+              return generateModule(json.generateInto, json.templatesFrom, data);
             });
         
       });

@@ -1,7 +1,14 @@
 {
+  "generateInto": "elm-gen/generated",
+  "templatesFrom": "elm-gen/templates",
   "moduleBase": "Gen",
   "modules": {
-    "SeaFood": { "Enum": { "sorts": ["Fish", "Octopus", "Lobster"] } },
+    "Direction": {
+      "Enum": {
+        "sorts": ["Up", "Right", "Down", "Left"],
+        "withJsonConverters": true
+      }
+    },
     "Vegetable": {
       "Enum": {
         "sorts": ["Potato", "Carrot", "Tomato", "Onion", "Cucumber", "Broccoli"]
