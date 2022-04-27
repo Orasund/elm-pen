@@ -1,6 +1,6 @@
 module Gen.Enum.Direction exposing (..)
 
-{-| This module contains the Enum Direction.
+{-| This module contains the Direction Enum.
 
     type Direction
         = Up

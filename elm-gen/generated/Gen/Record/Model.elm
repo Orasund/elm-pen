@@ -1,6 +1,6 @@
 module Gen.Record.Model exposing (..)
 
-{-| This module contains the Record Model.
+{-| This module contains the Model Record.
 
     type alias Model =
         { seed : Seed

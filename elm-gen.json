@@ -19,11 +19,24 @@
         ]
       }
     },
+    "StringWriter": {
+      "Writer": {
+        "imports": [],
+        "output": {
+          "type": "String",
+          "polymorphic": false,
+          "empty": "\"\"",
+          "append": "(\\c1 c2 -> c2 ++ c1)"
+        }
+      }
+    },
     "CmdWriter": {
       "Writer": {
         "imports": [],
         "output": {
-          "type": "Cmd Msg",
+          "type": "Cmd",
+          "polymorphic": true,
+          "empty": "Cmd.none",
           "append": "(\\c1 c2 -> Cmd.batch [c1,c2])"
         }
       }

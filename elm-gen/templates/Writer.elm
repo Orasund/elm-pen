@@ -1,15 +1,70 @@
 module {{moduleBase}}.{{template}}.{{moduleName}} exposing (..)
 
+{-| This module contains the {{moduleName}} {{template}}.
+
+    type alias {{moduleName}} state {{#if output.polymorphic}}out{{/if}} =
+        ( state, {{output.type}} {{#if output.polymorphic}}out{{/if}} )
+
+This module implements the writer monad.
+
+That's just a fancy way of saying that it using `state` for computation and stores the result in `{{output.type}}`.
+
+# Basics
+
+@docs {{moduleName}}, start, andThen, stop
+
+# Pause and Continue
+
+@docs pause, continue
+
+# Modifications
+
+@docs map, mapOutput
+
+-}
+
 {{#imports}}{{.}}{{/imports}}
 
-type alias {{moduleName}} a =
-    ( a, {{output.type}} )
+-------------------------------------------------------------------------------
+-- BASICS
+-------------------------------------------------------------------------------
 
-start : {{output.type}} -> a -> {{moduleName}} a
-start out a =
-    ( a, out )
+{-| {{moduleName}} type -}
+type alias {{moduleName}} state {{#if output.polymorphic}}out{{/if}} =
+    ( state, {{output.type}} {{#if output.polymorphic}}out{{/if}} )
 
-andThen : (a -> {{moduleName}} b) -> {{moduleName}} a -> {{moduleName}} b
+{-| Start the writing process.
+
+    start : state -> {{moduleName}} state {{#if output.polymorphic}}out{{/if}}
+    start a =
+        ( a, {{output.empty}})
+
+Use `andThen` for computation steps.
+Use `stop` to end the process and get the output.
+
+If you already have a {{output.type}} that you want to continue on, use `continue` instead.
+
+-}
+start : state -> {{moduleName}} state {{#if output.polymorphic}}out{{/if}}
+start a =
+    ( a, {{output.empty}})
+
+{-| Apply a computation to the writer.
+
+    andThen : (state1 -> {{moduleName}} state2 {{#if output.polymorphic}}out{{/if}}) -> {{moduleName}} state1 {{#if output.polymorphic}}out{{/if}} -> {{moduleName}} state2 {{#if output.polymorphic}}out{{/if}}
+    andThen fun ( a, out ) =
+        let
+            ( newA, newOut ) =
+                fun a
+        in
+        ( newA
+        , out |> {{output.append}} newOut
+        )
+
+Note that {{moduleName}} is just a tuple, where the output is stored in the second argument.
+
+-}
+andThen : (state1 -> {{moduleName}} state2 {{#if output.polymorphic}}out{{/if}}) -> {{moduleName}} state1 {{#if output.polymorphic}}out{{/if}} -> {{moduleName}} state2 {{#if output.polymorphic}}out{{/if}}
 andThen fun ( a, out ) =
     let
         ( newA, newOut ) =
@@ -19,14 +74,71 @@ andThen fun ( a, out ) =
     , out |> {{output.append}} newOut
     )
 
-map : ( a -> b ) -> {{moduleName}} a -> {{moduleName}} b
+{-| Stop the writer, turn the current state into {{output.type}} and return the output.
+
+    stop : ( state -> {{output.type}} {{#if output.polymorphic}}out{{/if}} ) -> {{moduleName}} state {{#if output.polymorphic}}out{{/if}} -> {{output.type}} {{#if output.polymorphic}}out{{/if}}
+    stop fun ( a, out) =
+        out |> {{output.append}} (fun a)
+
+If you want to ignore the current state and just get the current output, use `pause` instead.
+-}
+stop : ( state -> {{output.type}} {{#if output.polymorphic}}out{{/if}} ) -> {{moduleName}} state {{#if output.polymorphic}}out{{/if}} -> {{output.type}} {{#if output.polymorphic}}out{{/if}}
+stop fun ( a, out) =
+    out |> {{output.append}} (fun a)
+
+-------------------------------------------------------------------------------
+-- PAUSE AND CONTINUE
+-------------------------------------------------------------------------------
+
+{-| Get the current output.
+
+    pause : {{moduleName}} state {{#if output.polymorphic}}out{{/if}} -> {{output.type}} {{#if output.polymorphic}}out{{/if}}
+    pause =
+        Tuple.second
+
+-}
+pause : {{moduleName}} state {{#if output.polymorphic}}out{{/if}} -> {{output.type}} {{#if output.polymorphic}}out{{/if}}
+pause =
+    Tuple.second
+
+{-| Continue the computation with a {{output.type}}.
+
+    continue : {{output.type}} {{#if output.polymorphic}}out{{/if}} -> state -> {{moduleName}} state {{#if output.polymorphic}}out{{/if}}
+    continue out a =
+        ( a, out )
+
+If you have already a {{moduleName}} that you want to continue using, use `mapOutput` instead.
+
+-}
+continue : {{output.type}} {{#if output.polymorphic}}out{{/if}} -> state -> {{moduleName}} state {{#if output.polymorphic}}out{{/if}}
+continue out a =
+    ( a, out )
+
+-------------------------------------------------------------------------------
+-- MODIFICATIONS
+-------------------------------------------------------------------------------
+
+{-| Map the state of a {{moduleName}}.
+
+    map : ( state1 -> state2 ) -> {{moduleName}} state1 {{#if output.polymorphic}}out{{/if}} -> {{moduleName}} state2 {{#if output.polymorphic}}out{{/if}}
+    map fun =
+        Tuple.mapFirst fun
+
+-}
+map : ( state1 -> state2 ) -> {{moduleName}} state1 {{#if output.polymorphic}}out{{/if}} -> {{moduleName}} state2 {{#if output.polymorphic}}out{{/if}}
 map fun =
     Tuple.mapFirst fun
 
-mapOutput : ( {{output.type}} -> {{output.type}} ) -> {{moduleName}} a -> {{moduleName}} a
+{-| Map the output of a {{moduleName}}
+
+    mapOutput : ( {{output.type}} {{#if output.polymorphic}}out1{{/if}} -> {{output.type}} {{#if output.polymorphic}}out2{{/if}} ) -> {{moduleName}} state {{#if output.polymorphic}}out1{{/if}} -> {{moduleName}} state {{#if output.polymorphic}}out2{{/if}}
+    mapOutput fun =
+        Tuple.mapSecond fun
+
+-}
+mapOutput : ( {{output.type}} {{#if output.polymorphic}}out1{{/if}} -> {{output.type}} {{#if output.polymorphic}}out2{{/if}} ) -> {{moduleName}} state {{#if output.polymorphic}}out1{{/if}} -> {{moduleName}} state {{#if output.polymorphic}}out2{{/if}}
 mapOutput fun =
     Tuple.mapSecond fun
 
-end : ( a -> {{output.type}} ) -> {{moduleName}} a -> {{output.type}}
-end fun ( a, out) =
-    out |> {{output.append}} (fun a)
+
+

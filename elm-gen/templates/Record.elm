@@ -1,6 +1,6 @@
 module {{moduleBase}}.{{template}}.{{moduleName}} exposing (..)
 
-{-| This module contains the {{template}} {{moduleName}}.
+{-| This module contains the {{moduleName}} {{template}}.
 
     type alias {{moduleName}} =
 {{#fields}}
