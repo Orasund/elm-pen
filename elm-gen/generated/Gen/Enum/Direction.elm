@@ -80,8 +80,8 @@ If you need to convert all values of Direction into ints, use `asList` instead.
         --> asList |> List.map toInt
 -}
 toInt : Direction -> Int
-toInt arg =
-    case arg of
+toInt direction =
+    case direction of
         Up -> 0
         Right -> 1
         Down -> 2
@@ -122,8 +122,8 @@ fromInt int =
 
 -}
 toString : Direction -> String
-toString arg =
-    case arg of
+toString direction =
+    case direction of
         Up -> "Up"
         Right -> "Right"
         Down -> "Down"
@@ -143,8 +143,8 @@ Returns Nothing if the string is not valid.
             _ -> Nothing
 -}
 fromString : String -> Maybe Direction
-fromString arg =
-    case arg of
+fromString string =
+    case string of
         "Up" -> Just Up 
         "Right" -> Just Right 
         "Down" -> Just Down 
@@ -165,8 +165,8 @@ fromString arg =
 
 -}
 encode : Direction -> Json.Encode.Value
-encode arg =
-    arg
+encode direction =
+    direction
         |> toString
         |> Json.Encode.string
 

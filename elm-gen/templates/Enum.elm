@@ -81,8 +81,8 @@ If you need to convert all values of {{moduleName}} into ints, use `asList` inst
         --> asList |> List.map toInt
 -}
 toInt : {{moduleName}} -> Int
-toInt arg =
-    case arg of
+toInt {{decapitalize moduleName}} =
+    case {{decapitalize moduleName}} of
 {{#sorts}}
         {{.}} -> {{@index}}
 {{/sorts}}
@@ -119,8 +119,8 @@ fromInt int =
 
 -}
 toString : {{moduleName}} -> String
-toString arg =
-    case arg of
+toString {{decapitalize moduleName}} =
+    case {{decapitalize moduleName}} of
 {{#sorts}}
         {{.}} -> "{{.}}"
 {{/sorts}}
@@ -138,8 +138,8 @@ Returns Nothing if the string is not valid.
             _ -> Nothing
 -}
 fromString : String -> Maybe {{moduleName}}
-fromString arg =
-    case arg of
+fromString string =
+    case string of
 {{#sorts}}
         "{{.}}" -> Just {{.}} 
 {{/sorts}}
@@ -160,8 +160,8 @@ fromString arg =
 
 -}
 encode : {{moduleName}} -> Json.Encode.Value
-encode arg =
-    arg
+encode {{decapitalize moduleName}} =
+    {{decapitalize moduleName}}
         |> toString
         |> Json.Encode.string
 

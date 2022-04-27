@@ -1,6 +1,6 @@
 //Import Handlebars.js
 type handlebars<'a> = {
-  registerHelper: (. string, string => string) => unit,
+  registerHelper: (. string, option<string> => string) => unit,
   compile: (. string, {"strict": bool}, . 'a) => string,
 }
 @module external handlebars: handlebars<'whatever> = "handlebars"
@@ -11,6 +11,7 @@ type fs = {
   existsSync: (. string) => bool,
   mkdirSync: (. string, {"recursive": bool}) => unit,
   writeFileSync: (. string, string, {"flag": string}) => unit,
+  rmSync: (. string, {"recursive": bool}) => unit,
 }
 @module external fs: fs = "fs"
 
@@ -27,12 +28,22 @@ external parseJson: string => json<{..}> = "parse"
 let elmGen = "elm-gen"
 
 //Register additional functions
-handlebars.registerHelper(."capitalize", (aString: string) =>
-  Js.String.charAt(0, aString)->Js.String.toUpperCase ++ Js.String.substringToEnd(~from=1, aString)
-)
-handlebars.registerHelper(."decapitalize", aString =>
-  Js.String.charAt(0, aString)->Js.String.toLowerCase ++ Js.String.substringToEnd(~from=1, aString)
-)
+handlebars.registerHelper(."capitalize", (aString: option<string>) => {
+  switch aString {
+  | None => Js.Exn.raiseError("can't capitalize an undefined argument")
+  | Some("") => Js.Exn.raiseError("can't capitalize an empty argument")
+  | Some(string) =>
+    Js.String.charAt(0, string)->Js.String.toUpperCase ++ Js.String.substringToEnd(~from=1, string)
+  }
+})
+handlebars.registerHelper(."decapitalize", (aString: option<string>) => {
+  switch aString {
+  | None => Js.Exn.raiseError("can't decapitalize an undefined argument")
+  | Some("") => Js.Exn.raiseError("can't decapitalize an empty argument")
+  | Some(string) =>
+    Js.String.charAt(0, string)->Js.String.toLowerCase ++ Js.String.substringToEnd(~from=1, string)
+  }
+})
 
 /**
  * Construct the resulting json that will be used in the handlebars compiler.
@@ -67,6 +78,11 @@ let generateModule = (generateInto, templatesFrom, data) => {
     let namespace = Js.String.replace(".", "/", moduleBase)
     let dir = `${generateInto}/${namespace}/${template}`
     let generatedPath = `${dir}/${moduleName}.elm`
+
+    //remove folder
+    if fs.existsSync(. dir) {
+      fs.rmSync(. dir, {"recursive": true})
+    }
 
     //create folder structure
     if !fs.existsSync(. dir) {

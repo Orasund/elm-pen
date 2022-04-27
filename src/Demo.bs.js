@@ -10,11 +10,27 @@ var Caml_js_exceptions = require("rescript/lib/js/caml_js_exceptions.js");
 var elmGen = "elm-gen";
 
 Handlebars.registerHelper("capitalize", (function (aString) {
-        return aString.charAt(0).toUpperCase() + aString.substring(1);
+        if (aString !== undefined) {
+          if (aString === "") {
+            return Js_exn.raiseError("can't capitalize an empty argument");
+          } else {
+            return aString.charAt(0).toUpperCase() + aString.substring(1);
+          }
+        } else {
+          return Js_exn.raiseError("can't capitalize an undefined argument");
+        }
       }));
 
 Handlebars.registerHelper("decapitalize", (function (aString) {
-        return aString.charAt(0).toLowerCase() + aString.substring(1);
+        if (aString !== undefined) {
+          if (aString === "") {
+            return Js_exn.raiseError("can't decapitalize an empty argument");
+          } else {
+            return aString.charAt(0).toLowerCase() + aString.substring(1);
+          }
+        } else {
+          return Js_exn.raiseError("can't decapitalize an undefined argument");
+        }
       }));
 
 function constructData(moduleBase, moduleName, template, baseData) {
@@ -37,6 +53,11 @@ function generateModule(generateInto, templatesFrom, data) {
     var namespace = moduleBase.replace(".", "/");
     var dir = generateInto + "/" + namespace + "/" + template;
     var generatedPath = dir + "/" + moduleName + ".elm";
+    if (Fs.existsSync(dir)) {
+      Fs.rmSync(dir, {
+            recursive: true
+          });
+    }
     if (!Fs.existsSync(dir)) {
       Fs.mkdirSync(dir, {
             recursive: true
