@@ -18,6 +18,15 @@
           { "name": "todos", "type": "List String" }
         ]
       }
+    },
+    "CmdWriter": {
+      "Writer": {
+        "imports": [],
+        "output": {
+          "type": "Cmd Msg",
+          "append": "(\\c1 c2 -> Cmd.batch [c1,c2])"
+        }
+      }
     }
   }
 }

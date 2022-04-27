@@ -1,77 +1,148 @@
 module Gen.Record.Model exposing (..)
 
-import {.}
-import {.}
+{-| This module contains the Record Model.
 
+    type alias Model =
+        { seed : Seed
+        , time : Posix
+        , todos : List String
+        }
+
+# Type
+
+@docs Model
+
+# Getter
+
+@docs getSeed, getTime, getTodos
+
+# Setter
+
+@docs setSeed, setTime, setTodos
+
+# Mapper
+
+@docs mapSeed, mapTime, mapTodos
+
+-}
+
+import Random exposing (Seed)
+import Time exposing (Posix)
+
+{-| Model record -}
 type alias Model =
     { seed : Seed
-   , time : Posix
-   , todos : List String
+    , time : Posix
+    , todos : List String
     }
 
 -------------------------------------------------------------------------------
--- GET
+-- GETTER
 -------------------------------------------------------------------------------
 
+{-| Get the value of the seed field.
+
+    getSeed : Model -> Seed
+    getSeed =
+        .seed
+-}
 getSeed : Model -> Seed
 getSeed =
     .seed
 
+{-| Get the value of the time field.
+
+    getTime : Model -> Posix
+    getTime =
+        .time
+-}
 getTime : Model -> Posix
 getTime =
     .time
 
+{-| Get the value of the todos field.
+
+    getTodos : Model -> List String
+    getTodos =
+        .todos
+-}
 getTodos : Model -> List String
 getTodos =
     .todos
 
 
 -------------------------------------------------------------------------------
--- SET
+-- SETTER
 -------------------------------------------------------------------------------
 
+{-| Set the value of the seed field.
 
+    setSeed : Seed -> Model -> Model
+    setSeed seed model =
+        { model | seed = seed }
 
+-}
 setSeed : Seed -> Model -> Model
 setSeed seed model =
     { model | seed = seed }
 
+{-| Set the value of the time field.
+
+    setTime : Posix -> Model -> Model
+    setTime time model =
+        { model | time = time }
+
+-}
 setTime : Posix -> Model -> Model
 setTime time model =
     { model | time = time }
 
+{-| Set the value of the todos field.
+
+    setTodos : List String -> Model -> Model
+    setTodos todos model =
+        { model | todos = todos }
+
+-}
 setTodos : List String -> Model -> Model
 setTodos todos model =
     { model | todos = todos }
 
 
 -------------------------------------------------------------------------------
--- MAP
+-- MAPPER
 -------------------------------------------------------------------------------
 
+{-| Map the value of the seed field.
+
+    mapSeed : (Seed -> Seed) -> Model -> Model
+    mapSeed fun model =
+        { model | seed = fun model.seed }
+
+-}
 mapSeed : (Seed -> Seed) -> Model -> Model
 mapSeed fun model =
     { model | seed = fun model.seed }
 
+{-| Map the value of the time field.
+
+    mapTime : (Posix -> Posix) -> Model -> Model
+    mapTime fun model =
+        { model | time = fun model.time }
+
+-}
 mapTime : (Posix -> Posix) -> Model -> Model
 mapTime fun model =
     { model | time = fun model.time }
 
+{-| Map the value of the todos field.
+
+    mapTodos : (List String -> List String) -> Model -> Model
+    mapTodos fun model =
+        { model | todos = fun model.todos }
+
+-}
 mapTodos : (List String -> List String) -> Model -> Model
 mapTodos fun model =
     { model | todos = fun model.todos }
 
-
--------------------------------------------------------------------------------
--- GET AND THEN
--------------------------------------------------------------------------------
-
-getSeedAndThen : (Seed -> Model -> Model) -> Model -> Model
-getSeedAndThen fun model =
-    model |> fun model.seed
-getTimeAndThen : (Posix -> Model -> Model) -> Model -> Model
-getTimeAndThen fun model =
-    model |> fun model.time
-getTodosAndThen : (List String -> Model -> Model) -> Model -> Model
-getTodosAndThen fun model =
-    model |> fun model.todos

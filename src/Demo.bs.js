@@ -47,17 +47,13 @@ function generateModule(generateInto, templatesFrom, data) {
   try {
     var templateData = Fs.readFileSync(templatesFrom + "/" + template + ".elm", "utf8");
     var moduleTemplate = Handlebars.compile(templateData, {
-          strict: true
+          strict: true,
+          noEscape: true
         });
     var output = moduleTemplate(data);
     var namespace = moduleBase.replace(".", "/");
     var dir = generateInto + "/" + namespace + "/" + template;
     var generatedPath = dir + "/" + moduleName + ".elm";
-    if (Fs.existsSync(dir)) {
-      Fs.rmSync(dir, {
-            recursive: true
-          });
-    }
     if (!Fs.existsSync(dir)) {
       Fs.mkdirSync(dir, {
             recursive: true
@@ -81,6 +77,11 @@ function generateModule(generateInto, templatesFrom, data) {
 
 try {
   var json = JSON.parse(Fs.readFileSync(elmGen + ".json", "utf8"));
+  if (Fs.existsSync(json.generateInto)) {
+    Fs.rmSync(json.generateInto, {
+          recursive: true
+        });
+  }
   Js_dict.entries(json.modules).forEach(function (tup) {
         var moduleName = tup[0];
         Js_dict.entries(tup[1]).forEach(function (tuple) {

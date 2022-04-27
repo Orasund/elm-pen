@@ -1,7 +1,7 @@
 //Import Handlebars.js
 type handlebars<'a> = {
   registerHelper: (. string, option<string> => string) => unit,
-  compile: (. string, {"strict": bool}, . 'a) => string,
+  compile: (. string, {"strict": bool, "noEscape": bool}, . 'a) => string,
 }
 @module external handlebars: handlebars<'whatever> = "handlebars"
 
@@ -73,16 +73,11 @@ let generateModule = (generateInto, templatesFrom, data) => {
     let templateData = fs.readFileSync(. `${templatesFrom}/${template}.elm`, "utf8")
 
     //compile files
-    let moduleTemplate = handlebars.compile(. templateData, {"strict": true})
+    let moduleTemplate = handlebars.compile(. templateData, {"strict": true, "noEscape": true})
     let output = moduleTemplate(. data)
     let namespace = Js.String.replace(".", "/", moduleBase)
     let dir = `${generateInto}/${namespace}/${template}`
     let generatedPath = `${dir}/${moduleName}.elm`
-
-    //remove folder
-    if fs.existsSync(. dir) {
-      fs.rmSync(. dir, {"recursive": true})
-    }
 
     //create folder structure
     if !fs.existsSync(. dir) {
@@ -100,9 +95,14 @@ let generateModule = (generateInto, templatesFrom, data) => {
 try {
   //Read json structure
   let json = parseJson(fs.readFileSync(. `${elmGen}.json`, "utf8"))
-  json["modules"]
+
+  //remove folder
+  if fs.existsSync(. json["generateInto"]) {
+    fs.rmSync(. json["generateInto"], {"recursive": true})
+  }
 
   //Loop over every entry in the json list
+  json["modules"]
   |> Js.Dict.entries
   |> Js.Array.forEach(tup => {
     let (moduleName, moduleTemplates: Js.Dict.t<'whatever>) = tup
