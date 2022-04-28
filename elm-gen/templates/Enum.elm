@@ -192,6 +192,5 @@ decoderWithError errorMessage =
                     Json.Decode.succeed {{decapitalize moduleName}}
                 Nothing ->
                     Json.Decode.fail errorMessage
-                |> Maybe.withDefault default
         )
 {{/if}}

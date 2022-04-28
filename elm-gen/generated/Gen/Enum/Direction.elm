@@ -197,5 +197,4 @@ decoderWithError errorMessage =
                     Json.Decode.succeed direction
                 Nothing ->
                     Json.Decode.fail errorMessage
-                |> Maybe.withDefault default
         )

@@ -3,9 +3,8 @@ module Gen.Record.Model exposing (..)
 {-| This module contains the Model Record.
 
     type alias Model =
-        { seed : Seed
-        , time : Posix
-        , todos : List String
+        { direction : Direction
+        , todos : Array String
         }
 
 # Type
@@ -14,59 +13,48 @@ module Gen.Record.Model exposing (..)
 
 # Getter
 
-@docs getSeed, getTime, getTodos
+@docs getDirection, getTodos
 
 # Setter
 
-@docs setSeed, setTime, setTodos
+@docs setDirection, setTodos
 
 # Mapper
 
-@docs mapSeed, mapTime, mapTodos
+@docs mapDirection, mapTodos
 
 -}
 
-import Random exposing (Seed)
-import Time exposing (Posix)
+import Array exposing (Array)
+import Gen.Enum.Direction exposing (Direction)
 
 {-| Model record -}
 type alias Model =
-    { seed : Seed
-    , time : Posix
-    , todos : List String
+    { direction : Direction
+    , todos : Array String
     }
 
 -------------------------------------------------------------------------------
 -- GETTER
 -------------------------------------------------------------------------------
 
-{-| Get the value of the seed field.
+{-| Get the value of the direction field.
 
-    getSeed : Model -> Seed
-    getSeed =
-        .seed
+    getDirection : Model -> Direction
+    getDirection =
+        .direction
 -}
-getSeed : Model -> Seed
-getSeed =
-    .seed
-
-{-| Get the value of the time field.
-
-    getTime : Model -> Posix
-    getTime =
-        .time
--}
-getTime : Model -> Posix
-getTime =
-    .time
+getDirection : Model -> Direction
+getDirection =
+    .direction
 
 {-| Get the value of the todos field.
 
-    getTodos : Model -> List String
+    getTodos : Model -> Array String
     getTodos =
         .todos
 -}
-getTodos : Model -> List String
+getTodos : Model -> Array String
 getTodos =
     .todos
 
@@ -75,36 +63,25 @@ getTodos =
 -- SETTER
 -------------------------------------------------------------------------------
 
-{-| Set the value of the seed field.
+{-| Set the value of the direction field.
 
-    setSeed : Seed -> Model -> Model
-    setSeed seed model =
-        { model | seed = seed }
-
--}
-setSeed : Seed -> Model -> Model
-setSeed seed model =
-    { model | seed = seed }
-
-{-| Set the value of the time field.
-
-    setTime : Posix -> Model -> Model
-    setTime time model =
-        { model | time = time }
+    setDirection : Direction -> Model -> Model
+    setDirection direction model =
+        { model | direction = direction }
 
 -}
-setTime : Posix -> Model -> Model
-setTime time model =
-    { model | time = time }
+setDirection : Direction -> Model -> Model
+setDirection direction model =
+    { model | direction = direction }
 
 {-| Set the value of the todos field.
 
-    setTodos : List String -> Model -> Model
+    setTodos : Array String -> Model -> Model
     setTodos todos model =
         { model | todos = todos }
 
 -}
-setTodos : List String -> Model -> Model
+setTodos : Array String -> Model -> Model
 setTodos todos model =
     { model | todos = todos }
 
@@ -113,36 +90,25 @@ setTodos todos model =
 -- MAPPER
 -------------------------------------------------------------------------------
 
-{-| Map the value of the seed field.
+{-| Map the value of the direction field.
 
-    mapSeed : (Seed -> Seed) -> Model -> Model
-    mapSeed fun model =
-        { model | seed = fun model.seed }
-
--}
-mapSeed : (Seed -> Seed) -> Model -> Model
-mapSeed fun model =
-    { model | seed = fun model.seed }
-
-{-| Map the value of the time field.
-
-    mapTime : (Posix -> Posix) -> Model -> Model
-    mapTime fun model =
-        { model | time = fun model.time }
+    mapDirection : (Direction -> Direction) -> Model -> Model
+    mapDirection fun model =
+        { model | direction = fun model.direction }
 
 -}
-mapTime : (Posix -> Posix) -> Model -> Model
-mapTime fun model =
-    { model | time = fun model.time }
+mapDirection : (Direction -> Direction) -> Model -> Model
+mapDirection fun model =
+    { model | direction = fun model.direction }
 
 {-| Map the value of the todos field.
 
-    mapTodos : (List String -> List String) -> Model -> Model
+    mapTodos : (Array String -> Array String) -> Model -> Model
     mapTodos fun model =
         { model | todos = fun model.todos }
 
 -}
-mapTodos : (List String -> List String) -> Model -> Model
+mapTodos : (Array String -> Array String) -> Model -> Model
 mapTodos fun model =
     { model | todos = fun model.todos }
 

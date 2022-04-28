@@ -11,11 +11,13 @@
     },
     "Model": {
       "Record": {
-        "imports": ["Random exposing (Seed)", "Time exposing (Posix)"],
+        "imports": [
+          "Array exposing (Array)",
+          "Gen.Enum.Direction exposing (Direction)"
+        ],
         "fields": [
-          { "name": "seed", "type": "Seed" },
-          { "name": "time", "type": "Posix" },
-          { "name": "todos", "type": "List String" }
+          { "name": "direction", "type": "Direction" },
+          { "name": "todos", "type": "Array String" }
         ]
       }
     },
