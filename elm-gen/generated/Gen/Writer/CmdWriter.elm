@@ -9,13 +9,16 @@ This module implements the writer monad.
 
 That's just a fancy way of saying that it using `state` for computation and stores the result in `Cmd`.
 
+
 # Basics
 
 @docs CmdWriter, start, andThen, stop
 
+
 # Pause and Continue
 
 @docs pause, continue
+
 
 # Modifications
 
@@ -29,15 +32,18 @@ That's just a fancy way of saying that it using `state` for computation and stor
 -- BASICS
 -------------------------------------------------------------------------------
 
-{-| CmdWriter type -}
+
+{-| CmdWriter type 
+-}
 type alias CmdWriter state out =
     ( state, Cmd out )
+
 
 {-| Start the writing process.
 
     start : state -> CmdWriter state out
     start a =
-        ( a, Cmd.none)
+        ( a, Cmd.none )
 
 Use `andThen` for computation steps.
 Use `stop` to end the process and get the output.
@@ -47,7 +53,8 @@ If you already have a Cmd that you want to continue on, use `continue` instead.
 -}
 start : state -> CmdWriter state out
 start a =
-    ( a, Cmd.none)
+    ( a, Cmd.none )
+
 
 {-| Apply a computation to the writer.
 
@@ -74,6 +81,7 @@ andThen fun ( a, out ) =
     , out |> (\c1 c2 -> Cmd.batch [c1,c2]) newOut
     )
 
+
 {-| Stop the writer, turn the current state into Cmd and return the output.
 
     stop : ( state -> Cmd out ) -> CmdWriter state out -> Cmd out
@@ -83,12 +91,15 @@ andThen fun ( a, out ) =
 If you want to ignore the current state and just get the current output, use `pause` instead.
 -}
 stop : ( state -> Cmd out ) -> CmdWriter state out -> Cmd out
-stop fun ( a, out) =
+stop fun ( a, out ) =
     out |> (\c1 c2 -> Cmd.batch [c1,c2]) (fun a)
+
+
 
 -------------------------------------------------------------------------------
 -- PAUSE AND CONTINUE
 -------------------------------------------------------------------------------
+
 
 {-| Get the current output.
 

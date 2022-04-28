@@ -10,17 +10,21 @@ module {{moduleBase}}.{{template}}.{{moduleName}} exposing (..)
 {{/fields}}
         }
 
+
 # Type
 
 @docs {{moduleName}}
+
 
 # Getter
 
 @docs {{#fields}}{{#if @first}}{{else}}, {{/if}}get{{capitalize name}}{{/fields}}
 
+
 # Setter
 
 @docs {{#fields}}{{#if @first}}{{else}}, {{/if}}set{{capitalize name}}{{/fields}}
+
 
 # Mapper
 
@@ -32,7 +36,9 @@ module {{moduleBase}}.{{template}}.{{moduleName}} exposing (..)
 import {{.}}
 {{/imports}}
 
-{-| {{moduleName}} record -}
+
+{-| {{moduleName}} record
+-}
 type alias {{moduleName}} =
 {{#fields}}
 {{#if @first}}    { {{name}} : {{type}}
@@ -41,9 +47,12 @@ type alias {{moduleName}} =
 {{/fields}}
     }
 
+
+
 -------------------------------------------------------------------------------
 -- GETTER
 -------------------------------------------------------------------------------
+
 
 {{#fields}}
 {-| Get the value of the {{name}} field.
@@ -51,16 +60,20 @@ type alias {{moduleName}} =
     get{{capitalize name}} : {{../moduleName}} -> {{type}}
     get{{capitalize name}} =
         .{{name}}
+
 -}
 get{{capitalize name}} : {{../moduleName}} -> {{type}}
 get{{capitalize name}} =
     .{{name}}
 
+
 {{/fields}}
+
 
 -------------------------------------------------------------------------------
 -- SETTER
 -------------------------------------------------------------------------------
+
 
 {{#fields}}
 {-| Set the value of the {{name}} field.
@@ -74,11 +87,13 @@ set{{capitalize name}} : {{type}} -> {{../moduleName}} -> {{../moduleName}}
 set{{capitalize name}} {{name}} {{decapitalize ../moduleName}} =
     { {{decapitalize ../moduleName}} | {{name}} = {{name}} }
 
+
 {{/fields}}
 
 -------------------------------------------------------------------------------
 -- MAPPER
 -------------------------------------------------------------------------------
+
 
 {{#fields}}
 {-| Map the value of the {{name}} field.
@@ -91,5 +106,6 @@ set{{capitalize name}} {{name}} {{decapitalize ../moduleName}} =
 map{{capitalize name}} : ({{type}} -> {{type}}) -> {{../moduleName}} -> {{../moduleName}}
 map{{capitalize name}} fun {{decapitalize ../moduleName}} =
     { {{decapitalize ../moduleName}} | {{name}} = fun {{decapitalize ../moduleName}}.{{name}} }
+
 
 {{/fields}}
