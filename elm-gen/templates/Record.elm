@@ -30,12 +30,25 @@ module {{moduleBase}}.{{template}}.{{moduleName}} exposing (..)
 
 @docs {{#fields}}{{#if @first}}{{else}}, {{/if}}map{{capitalize name}}{{/fields}}
 
+{{#if withJsonEncoder}}
+# Encoder
+
+@docs encoder
+{{/if}}
+{{#if withJsonDecoder}}
+
+# Decoder
+
+@docs decoder
+{{/if}}
+
 -}
 
 {{#imports}}
 import {{.}}
 {{/imports}}
-
+{{#if withJsonEncoder}}import Json.Encode as E{{/if}}
+{{#if withJsonDecoder}}import Json.Decode as D{{/if}}
 
 {-| {{moduleName}} record
 -}
@@ -109,3 +122,38 @@ map{{capitalize name}} fun {{decapitalize ../moduleName}} =
 
 
 {{/fields}}
+
+{{#if withJsonEncoder}}
+-------------------------------------------------------------------------------
+-- ENCODER
+-------------------------------------------------------------------------------
+
+encoder :  {{moduleName}} -> E.Value
+encoder {{decapitalize moduleName}} =
+     E.object
+{{#fields}}
+        {{#if @first}}[ {{else}}, {{/if}}("{{name}}",({{jsonEncoder}}) {{decapitalize ../moduleName}}.{{name}} )
+{{/fields}}
+        ]
+{{/if}}
+
+{{#if withJsonEncoder}}
+-------------------------------------------------------------------------------
+-- DECODER
+-------------------------------------------------------------------------------
+
+decoder : D.Decoder {{moduleName}}
+decoder =
+    D.succeed
+        (\ {{#fields}}{{name}} {{/fields}}->
+{{#fields}}
+{{#if @first}}            { {{name}} = {{name}}
+{{else}}            , {{name}} = {{name}}
+{{/if}}
+{{/fields}}
+            }
+        )
+{{#fields}}
+            |> D.andThen (\fun ->  D.map fun ({{jsonDecoder}}) )
+{{/fields}}
+{{/if}}

@@ -175,15 +175,15 @@ fromString string =
 
 {-| Encodes the {{moduleName}} into a json value.
 
-    encode : {{moduleName}} -> Json.Encode.Value
-    encode arg =
+    encoder : {{moduleName}} -> Json.Encode.Value
+    encoder arg =
         arg
             |> toString
             |> Json.Encode.string
 
 -}
-encode : {{moduleName}} -> Json.Encode.Value
-encode {{decapitalize moduleName}} =
+encoder : {{moduleName}} -> Json.Encode.Value
+encoder {{decapitalize moduleName}} =
     {{decapitalize moduleName}}
         |> toString
         |> Json.Encode.string

@@ -27,11 +27,20 @@ module Gen.Record.Model exposing (..)
 
 @docs mapDirection, mapTodos
 
+# Encoder
+
+@docs encoder
+
+# Decoder
+
+@docs decoder
+
 -}
 
 import Array exposing (Array)
-import Gen.Enum.Direction exposing (Direction)
-
+import Gen.Enum.Direction as Direction exposing (Direction)
+import Json.Encode as E
+import Json.Decode as D
 
 {-| Model record
 -}
@@ -132,3 +141,29 @@ mapTodos fun model =
     { model | todos = fun model.todos }
 
 
+
+-------------------------------------------------------------------------------
+-- ENCODER
+-------------------------------------------------------------------------------
+
+encoder :  Model -> E.Value
+encoder model =
+     E.object
+        [ ("direction",(Direction.encoder) model.direction )
+        , ("todos",(E.array E.string) model.todos )
+        ]
+
+-------------------------------------------------------------------------------
+-- DECODER
+-------------------------------------------------------------------------------
+
+decoder : D.Decoder Model
+decoder =
+    D.succeed
+        (\ direction todos ->
+            { direction = direction
+            , todos = todos
+            }
+        )
+            |> D.andThen (\fun ->  D.map fun (Direction.decoder) )
+            |> D.andThen (\fun ->  D.map fun (D.array D.string) )

@@ -13,12 +13,24 @@
       "Record": {
         "imports": [
           "Array exposing (Array)",
-          "Gen.Enum.Direction exposing (Direction)"
+          "Gen.Enum.Direction as Direction exposing (Direction)"
         ],
         "fields": [
-          { "name": "direction", "type": "Direction" },
-          { "name": "todos", "type": "Array String" }
-        ]
+          {
+            "name": "direction",
+            "type": "Direction",
+            "jsonDecoder": "Direction.decoder",
+            "jsonEncoder": "Direction.encoder"
+          },
+          {
+            "name": "todos",
+            "type": "Array String",
+            "jsonDecoder": "D.array D.string",
+            "jsonEncoder": "E.array E.string"
+          }
+        ],
+        "withJsonDecoder": true,
+        "withJsonEncoder": true
       }
     },
     "StringWriter": {

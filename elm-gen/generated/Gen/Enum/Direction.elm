@@ -204,15 +204,15 @@ fromString string =
 
 {-| Encodes the Direction into a json value.
 
-    encode : Direction -> Json.Encode.Value
-    encode arg =
+    encoder : Direction -> Json.Encode.Value
+    encoder arg =
         arg
             |> toString
             |> Json.Encode.string
 
 -}
-encode : Direction -> Json.Encode.Value
-encode direction =
+encoder : Direction -> Json.Encode.Value
+encoder direction =
     direction
         |> toString
         |> Json.Encode.string
