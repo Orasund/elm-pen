@@ -26,16 +26,14 @@ That's just a fancy way of saying that it using `state` for computation and stor
 
 -}
 
-
-
 -------------------------------------------------------------------------------
 -- BASICS
 -------------------------------------------------------------------------------
 
 
-{-| CmdWriter type 
+{-| CmdWriter type
 -}
-type alias CmdWriter state out =
+type alias CmdWriter state =
     ( state, Cmd out )
 
 
@@ -65,7 +63,7 @@ start a =
                 fun a
         in
         ( newA
-        , out |> (\c1 c2 -> Cmd.batch [c1,c2]) newOut
+        , out |> (\c1 c2 -> Cmd.batch [ c1, c2 ]) newOut
         )
 
 Note that CmdWriter is just a tuple, where the output is stored in the second argument.
@@ -78,21 +76,22 @@ andThen fun ( a, out ) =
             fun a
     in
     ( newA
-    , out |> (\c1 c2 -> Cmd.batch [c1,c2]) newOut
+    , out |> (\c1 c2 -> Cmd.batch [ c1, c2 ]) newOut
     )
 
 
 {-| Stop the writer, turn the current state into Cmd and return the output.
 
-    stop : ( state -> Cmd out ) -> CmdWriter state out -> Cmd out
-    stop fun ( a, out) =
-        out |> (\c1 c2 -> Cmd.batch [c1,c2]) (fun a)
+    stop : (state -> Cmd out) -> CmdWriter state out -> Cmd out
+    stop fun ( a, out ) =
+        out |> (\c1 c2 -> Cmd.batch [ c1, c2 ]) (fun a)
 
 If you want to ignore the current state and just get the current output, use `pause` instead.
+
 -}
-stop : ( state -> Cmd out ) -> CmdWriter state out -> Cmd out
+stop : (state -> Cmd out) -> CmdWriter state out -> Cmd out
 stop fun ( a, out ) =
-    out |> (\c1 c2 -> Cmd.batch [c1,c2]) (fun a)
+    out |> (\c1 c2 -> Cmd.batch [ c1, c2 ]) (fun a)
 
 
 
@@ -112,6 +111,7 @@ pause : CmdWriter state out -> Cmd out
 pause =
     Tuple.second
 
+
 {-| Continue the computation with a Cmd.
 
     continue : Cmd out -> state -> CmdWriter state out
@@ -125,31 +125,32 @@ continue : Cmd out -> state -> CmdWriter state out
 continue out a =
     ( a, out )
 
+
+
 -------------------------------------------------------------------------------
 -- MODIFICATIONS
 -------------------------------------------------------------------------------
 
+
 {-| Map the state of a CmdWriter.
 
-    map : ( state1 -> state2 ) -> CmdWriter state1 out -> CmdWriter state2 out
+    map : (state1 -> state2) -> CmdWriter state1 out -> CmdWriter state2 out
     map fun =
         Tuple.mapFirst fun
 
 -}
-map : ( state1 -> state2 ) -> CmdWriter state1 out -> CmdWriter state2 out
+map : (state1 -> state2) -> CmdWriter state1 out -> CmdWriter state2 out
 map fun =
     Tuple.mapFirst fun
 
+
 {-| Map the output of a CmdWriter
 
-    mapOutput : ( Cmd out1 -> Cmd out2 ) -> CmdWriter state out1 -> CmdWriter state out2
+    mapOutput : (Cmd out1 -> Cmd out2) -> CmdWriter state out1 -> CmdWriter state out2
     mapOutput fun =
         Tuple.mapSecond fun
 
 -}
-mapOutput : ( Cmd out1 -> Cmd out2 ) -> CmdWriter state out1 -> CmdWriter state out2
+mapOutput : (Cmd out1 -> Cmd out2) -> CmdWriter state out1 -> CmdWriter state out2
 mapOutput fun =
     Tuple.mapSecond fun
-
-
-

@@ -26,14 +26,12 @@ That's just a fancy way of saying that it using `state` for computation and stor
 
 -}
 
-
-
 -------------------------------------------------------------------------------
 -- BASICS
 -------------------------------------------------------------------------------
 
 
-{-| StringWriter type 
+{-| StringWriter type
 -}
 type alias StringWriter state =
     ( state, String )
@@ -84,13 +82,14 @@ andThen fun ( a, out ) =
 
 {-| Stop the writer, turn the current state into String and return the output.
 
-    stop : ( state -> String ) -> StringWriter state -> String
-    stop fun ( a, out) =
+    stop : (state -> String) -> StringWriter state -> String
+    stop fun ( a, out ) =
         out |> (\c1 c2 -> c2 ++ c1) (fun a)
 
 If you want to ignore the current state and just get the current output, use `pause` instead.
+
 -}
-stop : ( state -> String ) -> StringWriter state -> String
+stop : (state -> String) -> StringWriter state -> String
 stop fun ( a, out ) =
     out |> (\c1 c2 -> c2 ++ c1) (fun a)
 
@@ -112,6 +111,7 @@ pause : StringWriter state -> String
 pause =
     Tuple.second
 
+
 {-| Continue the computation with a String.
 
     continue : String -> state -> StringWriter state
@@ -125,31 +125,32 @@ continue : String -> state -> StringWriter state
 continue out a =
     ( a, out )
 
+
+
 -------------------------------------------------------------------------------
 -- MODIFICATIONS
 -------------------------------------------------------------------------------
 
+
 {-| Map the state of a StringWriter.
 
-    map : ( state1 -> state2 ) -> StringWriter state1 -> StringWriter state2
+    map : (state1 -> state2) -> StringWriter state1 -> StringWriter state2
     map fun =
         Tuple.mapFirst fun
 
 -}
-map : ( state1 -> state2 ) -> StringWriter state1 -> StringWriter state2
+map : (state1 -> state2) -> StringWriter state1 -> StringWriter state2
 map fun =
     Tuple.mapFirst fun
 
+
 {-| Map the output of a StringWriter
 
-    mapOutput : ( String  -> String  ) -> StringWriter state  -> StringWriter state 
+    mapOutput : (String -> String) -> StringWriter state -> StringWriter state
     mapOutput fun =
         Tuple.mapSecond fun
 
 -}
-mapOutput : ( String  -> String  ) -> StringWriter state  -> StringWriter state 
+mapOutput : (String -> String) -> StringWriter state -> StringWriter state
 mapOutput fun =
     Tuple.mapSecond fun
-
-
-

@@ -5,6 +5,7 @@ var Fs = require("fs");
 var Js_exn = require("rescript/lib/js/js_exn.js");
 var Js_dict = require("rescript/lib/js/js_dict.js");
 var Handlebars = require("handlebars");
+var Child_process = require("child_process");
 var Caml_js_exceptions = require("rescript/lib/js/caml_js_exceptions.js");
 
 var elmGen = "elm-gen";
@@ -90,6 +91,10 @@ try {
             });
         
       });
+  if (json.usingElmFormat) {
+    Child_process.exec("elm-format elm-gen/generated --yes");
+  }
+  
 }
 catch (raw_err){
   var err = Caml_js_exceptions.internalToOCamlException(raw_err);

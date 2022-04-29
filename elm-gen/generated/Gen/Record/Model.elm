@@ -27,6 +27,7 @@ module Gen.Record.Model exposing (..)
 
 @docs mapDirection, mapTodos
 
+
 # Serialization
 
 @docs encoder
@@ -36,8 +37,9 @@ module Gen.Record.Model exposing (..)
 
 import Array exposing (Array)
 import Gen.Enum.Direction as Direction exposing (Direction)
-import Json.Encode as E
 import Json.Decode as D
+import Json.Encode as E
+
 
 {-| Model record
 -}
@@ -75,7 +77,6 @@ getDirection =
 getTodos : Model -> Array String
 getTodos =
     .todos
-
 
 
 
@@ -139,25 +140,26 @@ mapTodos fun model =
 
 
 
-
 -------------------------------------------------------------------------------
 -- SERIALIZATION
 -------------------------------------------------------------------------------
 
-encoder :  Model -> E.Value
+
+encoder : Model -> E.Value
 encoder model =
-     E.object
-        [ ("direction",(Direction.encoder) model.direction )
-        , ("todos",(E.array E.string) model.todos )
+    E.object
+        [ ( "direction", Direction.encoder model.direction )
+        , ( "todos", E.array E.string model.todos )
         ]
+
 
 decoder : D.Decoder Model
 decoder =
     D.succeed
-        (\ direction todos ->
+        (\direction todos ->
             { direction = direction
             , todos = todos
             }
         )
-            |> D.andThen (\fun ->  D.map fun (Direction.decoder) )
-            |> D.andThen (\fun ->  D.map fun (D.array D.string) )
+        |> D.andThen (\fun -> D.map fun Direction.decoder)
+        |> D.andThen (\fun -> D.map fun (D.array D.string))

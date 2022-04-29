@@ -15,11 +15,15 @@ type fs = {
 }
 @module external fs: fs = "fs"
 
+type child_process = {exec: (. string) => unit}
+@module external spawn: child_process = "child_process"
+
 // bind to JS' JSON.parse
 type json<'a> = {
   "generateInto": string,
   "templatesFrom": string,
   "moduleBase": string,
+  "usingElmFormat": bool,
   "modules": Js.Dict.t<Js.Dict.t<'a>>,
 }
 @scope("JSON") @val
@@ -120,6 +124,10 @@ try {
       generateModule(json["generateInto"], json["templatesFrom"], data)
     })
   })
+
+  if json["usingElmFormat"] {
+    spawn.exec(. "elm-format elm-gen/generated --yes")
+  }
 } catch {
 | Js.Exn.Error(err) => Js.Console.error(err)
 }

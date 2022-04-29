@@ -2,6 +2,7 @@
   "generateInto": "elm-gen/generated",
   "templatesFrom": "elm-gen/templates",
   "moduleBase": "Gen",
+  "usingElmFormat": true,
   "modules": {
     "Direction": {
       "Enum": {

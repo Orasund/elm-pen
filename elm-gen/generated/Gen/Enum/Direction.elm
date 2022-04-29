@@ -36,13 +36,14 @@ import Json.Encode
 -- BASICS
 -------------------------------------------------------------------------------
 
+
 {-| Direction type.
 -}
 type Direction
-   = Up
-   | Right
-   | Down
-   | Left
+    = Up
+    | Right
+    | Down
+    | Left
 
 
 {-| Lists all possible values of Direction
@@ -76,13 +77,16 @@ asList =
     toInt : Direction -> Int
     toInt arg =
         case arg of
-            Up -> 
+            Up ->
                 0
-            Right -> 
+
+            Right ->
                 1
-            Down -> 
+
+            Down ->
                 2
-            Left -> 
+
+            Left ->
                 3
 
 If you need to convert all values of Direction into ints, use `asList` instead.
@@ -94,14 +98,18 @@ If you need to convert all values of Direction into ints, use `asList` instead.
 toInt : Direction -> Int
 toInt direction =
     case direction of
-        Up -> 
+        Up ->
             0
-        Right -> 
+
+        Right ->
             1
-        Down -> 
+
+        Down ->
             2
-        Left -> 
+
+        Left ->
             3
+
 
 {-| Convert `Int` into `Direction`
 
@@ -110,58 +118,74 @@ Returns `Nothing` if the values is out of bounds.
     fromInt : Int -> Maybe Direction
     fromInt int =
         case int of
-            0 -> 
-                Just Up 
-            1 -> 
-                Just Right 
-            2 -> 
-                Just Down 
-            3 -> 
-                Just Left 
-            _ -> 
+            0 ->
+                Just Up
+
+            1 ->
+                Just Right
+
+            2 ->
+                Just Down
+
+            3 ->
+                Just Left
+
+            _ ->
                 Nothing
 
 -}
 fromInt : Int -> Maybe Direction
 fromInt int =
     case int of
-        0 -> 
-            Just Up 
-        1 -> 
-            Just Right 
-        2 -> 
-            Just Down 
-        3 -> 
-            Just Left 
-        _ -> 
+        0 ->
+            Just Up
+
+        1 ->
+            Just Right
+
+        2 ->
+            Just Down
+
+        3 ->
+            Just Left
+
+        _ ->
             Nothing
-    
+
+
 {-| Convert Direction into String
 
     toString : Direction -> String
     toString arg =
         case arg of
-            Up -> 
+            Up ->
                 "Up"
-            Right -> 
+
+            Right ->
                 "Right"
-            Down -> 
+
+            Down ->
                 "Down"
-            Left -> 
+
+            Left ->
                 "Left"
 
 -}
 toString : Direction -> String
 toString direction =
     case direction of
-        Up -> 
+        Up ->
             "Up"
-        Right -> 
+
+        Right ->
             "Right"
-        Down -> 
+
+        Down ->
             "Down"
-        Left -> 
+
+        Left ->
             "Left"
+
 
 {-| Convert a String into a Direction
 
@@ -170,29 +194,38 @@ Returns Nothing if the string is not valid.
     fromString : String -> Maybe Direction
     fromString arg =
         case arg of
-            "Up" -> 
-                Just Up 
-            "Right" -> 
-                Just Right 
-            "Down" -> 
-                Just Down 
-            "Left" -> 
-                Just Left 
-            _ -> 
+            "Up" ->
+                Just Up
+
+            "Right" ->
+                Just Right
+
+            "Down" ->
+                Just Down
+
+            "Left" ->
+                Just Left
+
+            _ ->
                 Nothing
+
 -}
 fromString : String -> Maybe Direction
 fromString string =
     case string of
-        "Up" -> 
-            Just Up 
-        "Right" -> 
-            Just Right 
-        "Down" -> 
-            Just Down 
-        "Left" -> 
-            Just Left 
-        _ -> 
+        "Up" ->
+            Just Up
+
+        "Right" ->
+            Just Right
+
+        "Down" ->
+            Just Down
+
+        "Left" ->
+            Just Left
+
+        _ ->
             Nothing
 
 
@@ -220,7 +253,6 @@ encoder direction =
 
 {-| Decoder for decoding a json value into a Direction
 
-
     decoder : Json.Decode.Decoder Direction
     decoder =
         "Direction expected. Valid values are \"Up\", \"Right\", \"Down\" and \"Left\""
@@ -241,12 +273,12 @@ Takes an error message as an argument.
 decoderWithError : String -> Json.Decode.Decoder Direction
 decoderWithError errorMessage =
     Json.Decode.string
-        |> Json.Decode.andThen 
-            (\string -> 
+        |> Json.Decode.andThen
+            (\string ->
                 case fromString string of
                     Just direction ->
                         Json.Decode.succeed direction
-                    
+
                     Nothing ->
                         Json.Decode.fail errorMessage
             )
