@@ -4,6 +4,8 @@ import ElmBook
 import ElmBook.ThemeOptions
 import Introduction
 import Template.Enum
+import Template.Record
+import Template.Writer
 
 
 main : ElmBook.Book msg
@@ -15,5 +17,10 @@ main =
             ]
         |> ElmBook.withChapterGroups
             [ ( "CLI", [ Introduction.chapter ] )
-            , ( "Templates", [ Template.Enum.chapter ] )
+            , ( "Templates"
+              , [ Template.Enum.chapter
+                , Template.Record.chapter
+                , Template.Writer.chapter
+                ]
+              )
             ]

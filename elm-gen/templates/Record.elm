@@ -31,16 +31,16 @@ module {{moduleBase}}.{{template}}.{{moduleName}} exposing (..)
 @docs {{#fields}}{{#if @first}}{{else}}, {{/if}}map{{capitalize name}}{{/fields}}
 
 {{#if withJsonEncoder}}
-# Encoder
+# Serialization
 
-@docs encoder
-{{/if}}
+{{else}}
 {{#if withJsonDecoder}}
+# Serialization
 
-# Decoder
-
-@docs decoder
 {{/if}}
+{{/if}}
+{{#if withJsonEncoder}}@docs encoder{{/if}}
+{{#if withJsonDecoder}}@docs decoder{{/if}}
 
 -}
 
@@ -123,11 +123,21 @@ map{{capitalize name}} fun {{decapitalize ../moduleName}} =
 
 {{/fields}}
 
+
 {{#if withJsonEncoder}}
 -------------------------------------------------------------------------------
--- ENCODER
+-- SERIALIZATION
 -------------------------------------------------------------------------------
 
+{{else}}
+{{#if withJsonDecoder}}
+-------------------------------------------------------------------------------
+-- SERIALIZATION
+-------------------------------------------------------------------------------
+
+{{/if}}
+{{/if}}
+{{#if withJsonEncoder}}
 encoder :  {{moduleName}} -> E.Value
 encoder {{decapitalize moduleName}} =
      E.object
@@ -138,10 +148,6 @@ encoder {{decapitalize moduleName}} =
 {{/if}}
 
 {{#if withJsonEncoder}}
--------------------------------------------------------------------------------
--- DECODER
--------------------------------------------------------------------------------
-
 decoder : D.Decoder {{moduleName}}
 decoder =
     D.succeed

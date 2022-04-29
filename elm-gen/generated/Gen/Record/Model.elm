@@ -27,12 +27,9 @@ module Gen.Record.Model exposing (..)
 
 @docs mapDirection, mapTodos
 
-# Encoder
+# Serialization
 
 @docs encoder
-
-# Decoder
-
 @docs decoder
 
 -}
@@ -142,8 +139,9 @@ mapTodos fun model =
 
 
 
+
 -------------------------------------------------------------------------------
--- ENCODER
+-- SERIALIZATION
 -------------------------------------------------------------------------------
 
 encoder :  Model -> E.Value
@@ -152,10 +150,6 @@ encoder model =
         [ ("direction",(Direction.encoder) model.direction )
         , ("todos",(E.array E.string) model.todos )
         ]
-
--------------------------------------------------------------------------------
--- DECODER
--------------------------------------------------------------------------------
 
 decoder : D.Decoder Model
 decoder =

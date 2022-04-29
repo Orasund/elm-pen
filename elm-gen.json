@@ -49,7 +49,7 @@
         "imports": [],
         "output": {
           "type": "Cmd",
-          "polymorphic": true,
+          "isPolymorphic": true,
           "empty": "Cmd.none",
           "append": "(\\c1 c2 -> Cmd.batch [c1,c2])"
         }
