@@ -2,11 +2,20 @@
   "generateInto": "elm-gen/generated",
   "templatesFrom": "elm-gen/templates",
   "moduleBase": "Gen",
-  "usingElmFormat": true,
+  "pathToElmFormat": "elm-format",
   "modules": {
-    "Direction": {
+    "Weekday": {
       "Enum": {
-        "sorts": ["Up", "Right", "Down", "Left"],
+        "sorts": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "isCyclic": true,
         "withJsonConverters": true
       }
     },
@@ -14,14 +23,14 @@
       "Record": {
         "imports": [
           "Array exposing (Array)",
-          "Gen.Enum.Direction as Direction exposing (Direction)"
+          "Gen.Enum.Weekday as Weekday exposing (Weekday)"
         ],
         "fields": [
           {
-            "name": "direction",
-            "type": "Direction",
-            "jsonDecoder": "Direction.decoder",
-            "jsonEncoder": "Direction.encoder"
+            "name": "weekday",
+            "type": "Weekday",
+            "jsonDecoder": "Weekday.decoder",
+            "jsonEncoder": "Weekday.encoder"
           },
           {
             "name": "todos",

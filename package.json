@@ -1,18 +1,27 @@
 {
-  "name": "rescript-project-template",
+  "name": "elm-gen",
   "version": "0.0.1",
+  "files": [
+    "src/cli/"
+  ],
   "scripts": {
+    "prepublish": "rescript",
     "build": "rescript",
     "clean": "rescript clean -with-deps",
     "start": "rescript build -w"
   },
+  "bin": {
+    "elm-gen": "src/cli/cli.js"
+  },
   "keywords": [
     "rescript"
   ],
-  "author": "",
-  "license": "MIT",
+  "author": "Orasund",
+  "license": "BSD-3-Clause",
   "dependencies": {
-    "handlebars": "^4.7.7",
+    "handlebars": "^4.7.7"
+  },
+  "devDependencies": {
     "rescript": "*"
   }
 }

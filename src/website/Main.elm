@@ -1,8 +1,9 @@
 module Main exposing (main)
 
+import Cli.Introduction
 import ElmBook
 import ElmBook.ThemeOptions
-import Introduction
+import Template.AddYourOwn
 import Template.Enum
 import Template.Record
 import Template.Writer
@@ -16,11 +17,12 @@ main =
             , ElmBook.ThemeOptions.subtitle "Generate your own Elm modules"
             ]
         |> ElmBook.withChapterGroups
-            [ ( "CLI", [ Introduction.chapter ] )
+            [ ( "CLI", [ Cli.Introduction.chapter ] )
             , ( "Templates"
               , [ Template.Enum.chapter
                 , Template.Record.chapter
                 , Template.Writer.chapter
+                , Template.AddYourOwn.chapter
                 ]
               )
             ]

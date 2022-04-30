@@ -3,7 +3,7 @@ module Gen.Record.Model exposing (..)
 {-| This module contains the Model Record.
 
     type alias Model =
-        { direction : Direction
+        { weekday : Weekday
         , todos : Array String
         }
 
@@ -15,17 +15,17 @@ module Gen.Record.Model exposing (..)
 
 # Getter
 
-@docs getDirection, getTodos
+@docs getWeekday, getTodos
 
 
 # Setter
 
-@docs setDirection, setTodos
+@docs setWeekday, setTodos
 
 
 # Mapper
 
-@docs mapDirection, mapTodos
+@docs mapWeekday, mapTodos
 
 
 # Serialization
@@ -36,15 +36,22 @@ module Gen.Record.Model exposing (..)
 -}
 
 import Array exposing (Array)
-import Gen.Enum.Direction as Direction exposing (Direction)
+import Gen.Enum.Weekday as Weekday exposing (Weekday)
 import Json.Decode as D
 import Json.Encode as E
+
+
+
+-- This is a generated file. DO NOT CHANGE ANYTHING IN HERE.
+-------------------------------------------------------------------------------
+-- TYPE
+-------------------------------------------------------------------------------
 
 
 {-| Model record
 -}
 type alias Model =
-    { direction : Direction
+    { weekday : Weekday
     , todos : Array String
     }
 
@@ -55,16 +62,16 @@ type alias Model =
 -------------------------------------------------------------------------------
 
 
-{-| Get the value of the direction field.
+{-| Get the value of the weekday field.
 
-    getDirection : Model -> Direction
-    getDirection =
-        .direction
+    getWeekday : Model -> Weekday
+    getWeekday =
+        .weekday
 
 -}
-getDirection : Model -> Direction
-getDirection =
-    .direction
+getWeekday : Model -> Weekday
+getWeekday =
+    .weekday
 
 
 {-| Get the value of the todos field.
@@ -85,16 +92,16 @@ getTodos =
 -------------------------------------------------------------------------------
 
 
-{-| Set the value of the direction field.
+{-| Set the value of the weekday field.
 
-    setDirection : Direction -> Model -> Model
-    setDirection direction model =
-        { model | direction = direction }
+    setWeekday : Weekday -> Model -> Model
+    setWeekday weekday model =
+        { model | weekday = weekday }
 
 -}
-setDirection : Direction -> Model -> Model
-setDirection direction model =
-    { model | direction = direction }
+setWeekday : Weekday -> Model -> Model
+setWeekday weekday model =
+    { model | weekday = weekday }
 
 
 {-| Set the value of the todos field.
@@ -115,16 +122,16 @@ setTodos todos model =
 -------------------------------------------------------------------------------
 
 
-{-| Map the value of the direction field.
+{-| Map the value of the weekday field.
 
-    mapDirection : (Direction -> Direction) -> Model -> Model
-    mapDirection fun model =
-        { model | direction = fun model.direction }
+    mapWeekday : (Weekday -> Weekday) -> Model -> Model
+    mapWeekday fun model =
+        { model | weekday = fun model.weekday }
 
 -}
-mapDirection : (Direction -> Direction) -> Model -> Model
-mapDirection fun model =
-    { model | direction = fun model.direction }
+mapWeekday : (Weekday -> Weekday) -> Model -> Model
+mapWeekday fun model =
+    { model | weekday = fun model.weekday }
 
 
 {-| Map the value of the todos field.
@@ -145,21 +152,25 @@ mapTodos fun model =
 -------------------------------------------------------------------------------
 
 
+{-| Json encoder for Model
+-}
 encoder : Model -> E.Value
 encoder model =
     E.object
-        [ ( "direction", Direction.encoder model.direction )
+        [ ( "weekday", Weekday.encoder model.weekday )
         , ( "todos", E.array E.string model.todos )
         ]
 
 
+{-| Json decoder for Model
+-}
 decoder : D.Decoder Model
 decoder =
     D.succeed
-        (\direction todos ->
-            { direction = direction
+        (\weekday todos ->
+            { weekday = weekday
             , todos = todos
             }
         )
-        |> D.andThen (\fun -> D.map fun Direction.decoder)
+        |> D.andThen (\fun -> D.map fun Weekday.decoder)
         |> D.andThen (\fun -> D.map fun (D.array D.string))

@@ -12,7 +12,7 @@ module {{moduleBase}}.{{template}}.{{moduleName}} exposing (..)
 
 # Basics
 
-@docs {{moduleName}}, asList
+@docs {{moduleName}}, asList, next, prev
 
 
 # Converters
@@ -66,7 +66,29 @@ asList =
     , {{.}}{{/if}}{{/sorts}}
     ]
 
+{-| Get the next {{moduleName}}.
 
+{{#isCyclic}}{{else}}Returns Nothing if its the last{{/isCyclic}}
+-}
+next : {{moduleName}} -> {{#isCyclic}}{{else}}Maybe {{/isCyclic}}{{moduleName}}
+next {{decapitalize moduleName}} =
+    {{decapitalize moduleName}}
+        |> toInt
+        |> (+) 1
+        |> fromInt
+        {{#isCyclic}}|> Maybe.withDefault {{#sorts}}{{#if @first}}{{.}}{{/if}}{{/sorts}}{{/isCyclic}}
+
+{-| Get the next {{moduleName}}.
+
+{{#isCyclic}}{{else}}Returns Nothing if its the first{{/isCyclic}}
+-}
+prev : {{moduleName}} -> {{#isCyclic}}{{else}}Maybe {{/isCyclic}}{{moduleName}}
+prev {{decapitalize moduleName}} =
+    {{decapitalize moduleName}}
+        |> toInt
+        |> (+) -1
+        |> fromInt
+        {{#isCyclic}}|> Maybe.withDefault {{#sorts}}{{#if @last}}{{.}}{{/if}}{{/sorts}}{{/isCyclic}}
 
 -------------------------------------------------------------------------------
 -- CONVERTERS

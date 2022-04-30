@@ -28,6 +28,8 @@ That's just a fancy way of saying that it using `state` for computation and stor
 
 {{#imports}}{{.}}{{/imports}}
 
+-- This is a generated file. DO NOT CHANGE ANYTHING IN HERE.
+
 -------------------------------------------------------------------------------
 -- BASICS
 -------------------------------------------------------------------------------
@@ -35,7 +37,7 @@ That's just a fancy way of saying that it using `state` for computation and stor
 
 {-| {{moduleName}} type 
 -}
-type alias {{moduleName}} state{{#if output.isisPolymorphic}} out{{/if}} =
+type alias {{moduleName}} state{{#if output.isPolymorphic}} out{{/if}} =
     ( state, {{output.type}}{{#if output.isPolymorphic}} out{{/if}} )
 
 

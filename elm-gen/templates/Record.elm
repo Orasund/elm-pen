@@ -50,6 +50,12 @@ import {{.}}
 {{#if withJsonEncoder}}import Json.Encode as E{{/if}}
 {{#if withJsonDecoder}}import Json.Decode as D{{/if}}
 
+-- This is a generated file. DO NOT CHANGE ANYTHING IN HERE.
+
+-------------------------------------------------------------------------------
+-- TYPE
+-------------------------------------------------------------------------------
+
 {-| {{moduleName}} record
 -}
 type alias {{moduleName}} =
@@ -138,6 +144,8 @@ map{{capitalize name}} fun {{decapitalize ../moduleName}} =
 {{/if}}
 {{/if}}
 {{#if withJsonEncoder}}
+{-| Json encoder for {{moduleName}}
+-}
 encoder :  {{moduleName}} -> E.Value
 encoder {{decapitalize moduleName}} =
      E.object
@@ -148,6 +156,8 @@ encoder {{decapitalize moduleName}} =
 {{/if}}
 
 {{#if withJsonEncoder}}
+{-| Json decoder for {{moduleName}}
+-}
 decoder : D.Decoder {{moduleName}}
 decoder =
     D.succeed

@@ -21,6 +21,7 @@ The Enum templates needs the following json structure:
 ``` 
 {
     "sorts": List String,
+    "isCyclic": Maybe Bool,
     "withJsonConverters": Maybe Bool
 }
 ```
@@ -28,13 +29,23 @@ The Enum templates needs the following json structure:
 Requirements
 
 * The `sorts` fields must be a non empty list of 0-argument constructors. No spaces allowed!
-* The `withJsonConverters` field is optional and will default to false.
+* The optional `isCyclic` flag specifies if `next` and `prev` should wrap around. Defaults to false.
+* The optional `withJsonConverters` flag specifies if `elm/json` should be used to create json converters. Defaults to false.
 
 Example:
 
 ``` json
 {
-    "sorts": ["Up", "Right", "Down", "Left"],
+    "sorts": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+    ],
+    "isCyclic": true,
     "withJsonConverters": true
 }
 ```

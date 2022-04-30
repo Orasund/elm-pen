@@ -26,6 +26,7 @@ That's just a fancy way of saying that it using `state` for computation and stor
 
 -}
 
+-- This is a generated file. DO NOT CHANGE ANYTHING IN HERE.
 -------------------------------------------------------------------------------
 -- BASICS
 -------------------------------------------------------------------------------
