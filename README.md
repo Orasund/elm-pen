@@ -11,8 +11,8 @@ I kindly ask you to also add an [issue on GitHub](https://github.com/Orasund/elm
 ## Installation
 
 1. Clone this project
-2. Run `mpn run build`
-3. Run `mpn link`
+2. Run `npm run build`
+3. Run `npm link`
 4. Go into your project
 5. Run `elm-gen`
 6. (optional) add `elm-gen/generated` to your `.gitignore`.

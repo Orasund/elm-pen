@@ -27,8 +27,8 @@ The Record templates needs the following json structure:
             , "jsonDecoder" : String
             , "jsonEncoder" : String
             },
-    "withJsonDecoder" : Bool,
-    "withJsonDecoder" : Bool
+    "withJsonDecoder" : Maybe Bool,
+    "withJsonDecoder" : Maybe Bool
 }
 ```
 
@@ -36,12 +36,12 @@ The Record templates needs the following json structure:
 * The `fields` field is a list of the fields with
   * The `name` of the field.
   * The `type` of the field. Type variables are NOT supported!
-  * The `jsonDecoder` of the type. Can be "" if not used.
+  * The `jsonDecoder` of the type.
     If `withJsonDecoder` is true, then all fields need a json decoder
-  * The `jsonEncoder` of the type. Can be "" if not used.
+  * The `jsonEncoder` of the type.
     If `withJsonEncoder` is true, then all fields need a json encoder
-* The `withJsonDecoder` field states if the decoder should be generated aswell.
-* The `withJsonEncoder` field states if the encoder should be generated aswell.
+* The optional `withJsonDecoder` field states if the decoder should be generated aswell.
+* The optional `withJsonEncoder` field states if the encoder should be generated aswell.
 
 Example:
 
