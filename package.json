@@ -19,6 +19,7 @@
   "author": "Orasund",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "fs-extra": "^10.1.0",
     "handlebars": "^4.7.7"
   },
   "devDependencies": {

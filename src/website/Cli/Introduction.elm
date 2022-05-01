@@ -23,10 +23,8 @@ I kindly ask you to also add an [issue on GitHub](https://github.com/Orasund/elm
 2. Run `mpn run build`
 3. Run `mpn link`
 4. Go into your project
-5. Get the [templates](https://github.com/Orasund/elm-gen/tree/master/elm-gen/templates) and put them into `elm-gen/templates` inside your project.
-6. Get the [config file](https://github.com/Orasund/elm-gen/blob/master/elm-gen.json) and also put it into your project.
-7. Run `elm-gen`
-8. (optional) add `elm-gen/generated` to your `.gitignore`.
+5. Run `elm-gen`
+6. (optional) add `elm-gen/generated` to your `.gitignore`.
 
 Now you are ready to go. You can modify the config file, add new templates or checkout the js file if you really want to get your hands dirty.
 

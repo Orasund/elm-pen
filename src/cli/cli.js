@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-var processTitle = "elm-gen";
-
-process.title = processTitle;
+process.title = "elm-gen";
 
 var elmGen = require("./ElmGen.js");
 

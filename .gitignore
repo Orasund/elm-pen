@@ -4,3 +4,5 @@
 .bsb.lock
 .merlin
 elm-stuff
+elm-gen.json
+/elm-gen/
