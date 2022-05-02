@@ -10,6 +10,18 @@ var Child_process = require("child_process");
 var Caml_js_exceptions = require("rescript/lib/js/caml_js_exceptions.js");
 
 function run(param) {
+  var getTemplateData = function (templatesFrom, template) {
+    var file = templatesFrom + "/" + template + ".elm";
+    var copyFrom = "templates/" + template + ".elm";
+    var data = FileSystem.read(file);
+    if (data !== undefined) {
+      return data;
+    } else if (FileSystem.copyFile(file, copyFrom)) {
+      return FileSystem.read(file);
+    } else {
+      return ;
+    }
+  };
   Handlebars.init(undefined);
   var generate = function (json, templatesFrom) {
     var generateInto = Util.getOrThrow(json.generateInto, "❌ field " + "generateInto" + " is missing in elm-gen.json");
@@ -23,7 +35,8 @@ function run(param) {
                 var moduleName$1 = data.moduleName;
                 var template = data.template;
                 try {
-                  var templateData = FileSystem.readOrThrow(templatesFrom + "/" + template + ".elm", "❌ Could not find " + template + " inside " + templatesFrom);
+                  var data$1 = getTemplateData(templatesFrom, template);
+                  var templateData = data$1 !== undefined ? data$1 : Js_exn.raiseError("❌ Could not find " + template + ".elm inside " + templatesFrom);
                   var namespace = moduleBase$1.replace(".", "/");
                   FileSystem.write(Handlebars.compile(data, templateData), {
                         path: generateInto + "/" + namespace + "/" + template,

@@ -4,6 +4,24 @@ type child_process = {exec: (. string) => unit}
 let run = () => {
   let elmGen = "elm-gen"
 
+  let copyAndRead: (string, string) => option<string> = (file, copyFrom) => {
+    switch FileSystem.read(file) {
+    | Some(data) => Some(data)
+    | None =>
+      if FileSystem.copyFile(file, copyFrom) {
+        FileSystem.read(file)
+      } else {
+        None
+      }
+    }
+  }
+
+  let getTemplateData: (string, string) => option<string> = (templatesFrom, template) => {
+    let file = `${templatesFrom}/${template}.elm`
+    let copyFrom = `templates/${template}.elm`
+    copyAndRead(file, copyFrom)
+  }
+
   Handlebars.init()
 
   /**
@@ -16,10 +34,10 @@ let run = () => {
 
     try {
       //read template
-      let templateData =
-        `${templatesFrom}/${template}.elm`->FileSystem.readOrThrow(
-          `❌ Could not find ${template} inside ${templatesFrom}`,
-        )
+      let templateData = switch getTemplateData(templatesFrom, template) {
+      | Some(data) => data
+      | None => Js.Exn.raiseError(`❌ Could not find ${template}.elm inside ${templatesFrom}`)
+      }
 
       //compile files
       let namespace = Js.String.replace(".", "/", moduleBase)

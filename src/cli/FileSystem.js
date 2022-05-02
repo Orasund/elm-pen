@@ -9,74 +9,40 @@ var Js_exn = require("rescript/lib/js/js_exn.js");
 var FsExtra = require("fs-extra");
 var Caml_js_exceptions = require("rescript/lib/js/caml_js_exceptions.js");
 
-function copyIfNotExist(fileName, fun) {
-  if (Fs.existsSync(fileName)) {
-    return Curry._1(fun, undefined);
-  } else {
-    return Fs.copyFile(Path.normalize(__dirname + "/" + fileName), fileName, (function (nullable) {
-                  if (nullable == null) {
-                    return Curry._1(fun, undefined);
-                  } else {
-                    return Js_exn.raiseError(nullable);
-                  }
-                }));
+function createFolder(dir) {
+  if (!Fs.existsSync(Path.normalize(dir))) {
+    return Fs.mkdirSync(Path.normalize(dir), {
+                recursive: true
+              });
+  }
+  
+}
+
+function copyFile(fileName, origin) {
+  try {
+    Fs.copyFileSync(Path.normalize(__dirname + "/" + origin), fileName);
+    return true;
+  }
+  catch (raw_exn){
+    var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    if (exn.RE_EXN_ID === Js_exn.$$Error) {
+      return false;
+    }
+    throw exn;
   }
 }
 
-function copyFolderIfNotExist(fileName, origin, fun) {
-  if (Fs.existsSync(fileName)) {
-    return Curry._1(fun, undefined);
-  } else {
-    return FsExtra.copy(Path.normalize(__dirname + "/" + origin), fileName, (function (nullable) {
-                  if (nullable == null) {
-                    return Curry._1(fun, undefined);
-                  } else {
-                    return Js_exn.raiseError(nullable);
-                  }
-                }));
-  }
-}
-
-function readOrThrow(file, string) {
+function read(file) {
   try {
     return Fs.readFileSync(Path.normalize(file), "utf8");
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.RE_EXN_ID === Js_exn.$$Error) {
-      return Js_exn.raiseError(string);
+      return ;
     }
     throw exn;
   }
-}
-
-function readOrCopy(fileName, fun) {
-  return copyIfNotExist(fileName, (function (param) {
-                return Curry._1(fun, readOrThrow(fileName, "❌ Could not find " + fileName));
-              }));
-}
-
-function installAndThen(fileName, fun) {
-  return readOrCopy(fileName, (function (jsonString) {
-                var json = JSON.parse(jsonString);
-                var templatesFrom = Util.getOrThrow(json.templatesFrom, "\xe2\x9d\x8c field \"templatesFrom\" is missing in elm-gen.json");
-                return copyFolderIfNotExist(templatesFrom, "templates/", (function (param) {
-                              return Curry._2(fun, json, templatesFrom);
-                            }));
-              }));
-}
-
-function write(source, args) {
-  var dir = args.path;
-  var generatedPath = dir + "/" + args.file;
-  if (!Fs.existsSync(Path.normalize(dir))) {
-    Fs.mkdirSync(Path.normalize(dir), {
-          recursive: true
-        });
-  }
-  return Fs.writeFileSync(Path.normalize(generatedPath), source, {
-              flag: "w+"
-            });
 }
 
 function remove(folder) {
@@ -88,11 +54,45 @@ function remove(folder) {
   
 }
 
-exports.copyIfNotExist = copyIfNotExist;
-exports.copyFolderIfNotExist = copyFolderIfNotExist;
-exports.readOrThrow = readOrThrow;
-exports.readOrCopy = readOrCopy;
-exports.installAndThen = installAndThen;
-exports.write = write;
+function write(source, args) {
+  var dir = args.path;
+  var generatedPath = dir + "/" + args.file;
+  createFolder(dir);
+  return Fs.writeFileSync(Path.normalize(generatedPath), source, {
+              flag: "w+"
+            });
+}
+
+function installAndThen(fileName, fun) {
+  if (Fs.existsSync(fileName)) {
+    true;
+  } else {
+    copyFile(Path.normalize(__dirname + "/" + fileName), fileName);
+  }
+  var string = read(fileName);
+  var json = string !== undefined ? JSON.parse(string) : Js_exn.raiseError("❌ Could not find " + fileName);
+  var templatesFrom = Util.getOrThrow(json.templatesFrom, "\xe2\x9d\x8c field \"templatesFrom\" is missing in elm-gen.json");
+  var origin = "templates/";
+  var fun$1 = function (param) {
+    return Curry._2(fun, json, templatesFrom);
+  };
+  if (Fs.existsSync(templatesFrom)) {
+    return Curry._1(fun$1, undefined);
+  } else {
+    return FsExtra.copy(Path.normalize(__dirname + "/" + origin), templatesFrom, (function (nullable) {
+                  if (nullable == null) {
+                    return Curry._1(fun$1, undefined);
+                  } else {
+                    return Js_exn.raiseError(nullable);
+                  }
+                }));
+  }
+}
+
+exports.createFolder = createFolder;
+exports.copyFile = copyFile;
+exports.read = read;
 exports.remove = remove;
+exports.write = write;
+exports.installAndThen = installAndThen;
 /* fs Not a pure module */
