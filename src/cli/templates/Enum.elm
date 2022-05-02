@@ -245,3 +245,5 @@ decoderWithError errorMessage =
                         Json.Decode.fail errorMessage
             )
 {{/if}}
+
+-- Generated with [Elm-Gen](https://orasund.github.io/elm-gen) Version {{version}}
