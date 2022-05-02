@@ -177,3 +177,5 @@ decoder =
             |> D.andThen (\fun ->  D.map fun ({{jsonDecoder}}) )
 {{/fields}}
 {{/if}}
+
+-- Generated with [Elm-Gen](https://orasund.github.io/elm-gen) Version {{version}}

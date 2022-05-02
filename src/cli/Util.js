@@ -3,11 +3,15 @@
 
 var Js_exn = require("rescript/lib/js/js_exn.js");
 var Caml_option = require("rescript/lib/js/caml_option.js");
+var PackageJson = require("../../package.json");
+
+var $$package = PackageJson;
 
 function constructData(moduleBase, moduleName, template, baseData) {
   baseData.moduleBase = moduleBase;
   baseData.template = template;
   baseData.moduleName = moduleName;
+  baseData.version = $$package.version;
   return baseData;
 }
 
@@ -19,6 +23,7 @@ function getOrThrow(option, string) {
   }
 }
 
+exports.$$package = $$package;
 exports.constructData = constructData;
 exports.getOrThrow = getOrThrow;
-/* No side effect */
+/* package Not a pure module */

@@ -155,5 +155,4 @@ mapOutput : ( {{output.type}} {{#if output.isPolymorphic}}out1{{/if}} -> {{outpu
 mapOutput fun =
     Tuple.mapSecond fun
 
-
-
+-- Generated with [Elm-Gen](https://orasund.github.io/elm-gen) Version {{version}}

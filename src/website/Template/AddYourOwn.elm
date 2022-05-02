@@ -15,6 +15,8 @@ module {{moduleBase}}.{{template}}.{{moduleName}} exposing (..)
 
 {-| This module contains the {{moduleName}} {{template}}.
 -}
+
+-- Generated with [Elm-Gen](https://orasund.github.io/elm-gen) Version {{version}}
 ```
 
 To test your new template, add an entry to the `elm-gen.json` file.

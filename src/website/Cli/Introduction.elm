@@ -30,7 +30,7 @@ Now you are ready to go. You can modify the config file, add new templates or ch
 
 ## Configuration
 
-Inside the `elm-gen.json` file are a few fields that can be configured
+The fields in the `elm-gen.json` file be configured.
 
 * `generateInto` - The folder in which the generated files should live
 * `templatesFrom` - The folder in which the templates are living

@@ -1,3 +1,6 @@
+type package = {version: string}
+@module external package: package = "../../package.json"
+
 /**
  * Construct the resulting json that will be used in the handlebars compiler.
  *
@@ -10,6 +13,7 @@ let constructData = (moduleBase, moduleName, template, baseData) => {
   baseData["moduleBase"] = moduleBase
   baseData["template"] = template
   baseData["moduleName"] = moduleName
+  baseData["version"] = package.version
   baseData
 }
 
