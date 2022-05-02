@@ -14,7 +14,7 @@ This module contains the {{moduleName}} {{template}}.
 
 # Basics
 
-@docs {{moduleName}}, asList, next, prev
+@docs {{moduleName}}, asList, first, next, prev, last
 
 
 # Converters
@@ -67,6 +67,17 @@ asList =
     , {{.}}{{/if}}{{/sorts}}
     ]
 
+{-| Get the first constructor of the {{moduleName}}
+
+    first : {{moduleName}}
+    first =
+        {{#sorts}}{{#if @first}}{{.}}{{/if}}{{/sorts}}
+
+-}
+first : {{moduleName}}
+first =
+    {{#sorts}}{{#if @first}}{{.}}{{/if}}{{/sorts}}
+
 {-| Get the next {{moduleName}}.
 
 {{#if isCyclic}}{{else}}Returns Nothing if its the last{{/if}}
@@ -90,6 +101,17 @@ prev {{decapitalize moduleName}} =
         |> (+) -1
         |> fromInt
         {{#if isCyclic}}|> Maybe.withDefault {{#sorts}}{{#if @last}}{{.}}{{/if}}{{/sorts}}{{/if}}
+
+{-| Get the last constructor of the {{moduleName}}
+
+    last : {{moduleName}}
+    last =
+        {{#sorts}}{{#if @last}}{{.}}{{/if}}{{/sorts}}
+
+-}
+last : {{moduleName}}
+last =
+    {{#sorts}}{{#if @last}}{{.}}{{/if}}{{/sorts}}
 
 -------------------------------------------------------------------------------
 -- CONVERTERS
