@@ -1,6 +1,6 @@
 {
   "name": "elm-pen",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Generate your own Elm modules",
   "funding": "https://issuehunt.io/r/orasund",
   "files": [
@@ -27,9 +27,7 @@
   "homepage": "https://orasund.github.io/elm-pen",
   "dependencies": {
     "fs-extra": "^10.1.0",
-    "handlebars": "^4.7.7"
-  },
-  "devDependencies": {
+    "handlebars": "^4.7.7",
     "rescript": "*"
   }
 }

@@ -19,18 +19,17 @@ I kindly ask you to also add an [issue on GitHub](https://github.com/Orasund/elm
 
 ## Installation
 
-1. Clone this project
-2. Run `npm run build`
-3. Run `npm link`
-4. Go into your project
-5. Run `elm-pen`
-6. (optional) add `elm-pen/generated` to your `.gitignore`.
+```npm install -g elm-pen```
 
-Now you are ready to go. You can modify the config file, add new templates or checkout the js file if you really want to get your hands dirty.
+## Generating Files
+
+```elm-pen```
+
+On the first run, it will generate a `elm-pen.json` aswell as some example files.
 
 ## Configuration
 
-The fields in the `elm-pen.json` file be configured.
+Change the fields in `elm-pen.json` to your liking.
 
 * `generateInto` - The folder in which the generated files should live
 * `templatesFrom` - The folder in which the templates are living
