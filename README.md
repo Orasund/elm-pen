@@ -1,4 +1,4 @@
-# Elm-pen
+# ✍️ Elm-pen
 
 Elm-pen is a small CLI tool that lets you generate elm-files using [Handlebars.js](https://handlebarsjs.com/guide/).
 
