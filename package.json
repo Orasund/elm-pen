@@ -1,5 +1,5 @@
 {
-  "name": "elm-gen",
+  "name": "elm-pen",
   "version": "0.0.1",
   "description": "Generate your own Elm modules",
   "funding": "https://issuehunt.io/r/orasund",
@@ -13,7 +13,7 @@
     "start": "rescript build -w"
   },
   "bin": {
-    "elm-gen": "src/cli/cli.js"
+    "elm-pen": "src/cli/cli.js"
   },
   "keywords": [
     "rescript"
@@ -22,8 +22,9 @@
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Orasund/elm-gen.git"
+    "url": "https://github.com/Orasund/elm-pen.git"
   },
+  "homepage": "https://orasund.github.io/elm-pen",
   "dependencies": {
     "fs-extra": "^10.1.0",
     "handlebars": "^4.7.7"
