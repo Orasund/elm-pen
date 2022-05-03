@@ -8,7 +8,7 @@ chapter =
     ElmBook.Chapter.chapter "Add Your Own"
         |> ElmBook.Chapter.render """
 
-To create your own template, add this minimal template to your templates folder (default is `elm-gen/templates`).
+To create your own template, add this minimal template to your templates folder (default is `elm-pen/templates`).
 
 ```
 module {{moduleBase}}.{{template}}.{{moduleName}} exposing (..)
@@ -16,10 +16,10 @@ module {{moduleBase}}.{{template}}.{{moduleName}} exposing (..)
 {-| This module contains the {{moduleName}} {{template}}.
 -}
 
--- Generated with [Elm-Gen](https://orasund.github.io/elm-gen) Version {{version}}
+-- Generated with [Elm-pen](https://orasund.github.io/elm-pen) Version {{version}}
 ```
 
-To test your new template, add an entry to the `elm-gen.json` file.
+To test your new template, add an entry to the `elm-pen.json` file.
 
 ```
 { ..
@@ -27,7 +27,7 @@ To test your new template, add an entry to the `elm-gen.json` file.
 }
 ```
 
-You can now extend the template and add any needed variables into the `elm-gen.json` file.
+You can now extend the template and add any needed variables into the `elm-pen.json` file.
 
 We are using [handlebars.js](https://handlebarsjs.com/guide/) as template language.
 

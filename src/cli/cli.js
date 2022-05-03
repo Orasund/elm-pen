@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-process.title = "elm-gen";
+process.title = "elm-pen";
 
-var elmGen = require("./ElmGen.js");
+var elmGen = require("./ElmPen.js");
 
 elmGen.run()

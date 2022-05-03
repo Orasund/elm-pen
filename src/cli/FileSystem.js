@@ -64,10 +64,8 @@ function write(source, args) {
 }
 
 function installAndThen(fileName, fun) {
-  if (Fs.existsSync(fileName)) {
-    true;
-  } else {
-    copyFile(Path.normalize(__dirname + "/" + fileName), fileName);
+  if (!Fs.existsSync(fileName) && !copyFile(fileName, fileName)) {
+    Js_exn.raiseError("❌ Could not copy " + Path.normalize(fileName) + " into " + fileName);
   }
   var string = read(fileName);
   var json = string !== undefined ? JSON.parse(string) : Js_exn.raiseError("❌ Could not find " + fileName);

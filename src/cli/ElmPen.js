@@ -10,6 +10,7 @@ var Child_process = require("child_process");
 var Caml_js_exceptions = require("rescript/lib/js/caml_js_exceptions.js");
 
 function run(param) {
+  var elmGen = "elm-pen";
   var getTemplateData = function (templatesFrom, template) {
     var file = templatesFrom + "/" + template + ".elm";
     var copyFrom = "templates/" + template + ".elm";
@@ -24,8 +25,8 @@ function run(param) {
   };
   Handlebars.init(undefined);
   var generate = function (json, templatesFrom) {
-    var generateInto = Util.getOrThrow(json.generateInto, "❌ field " + "generateInto" + " is missing in elm-gen.json");
-    var moduleBase = Util.getOrThrow(json.moduleBase, "❌ field " + "moduleBase" + " is missing in elm-gen.json");
+    var generateInto = Util.getOrThrow(json.generateInto, "❌ field " + "generateInto" + " is missing in " + elmGen + ".json");
+    var moduleBase = Util.getOrThrow(json.moduleBase, "❌ field " + "moduleBase" + " is missing in " + elmGen + ".json");
     FileSystem.remove(generateInto);
     Js_dict.entries(json.modules).forEach(function (tup) {
           var moduleName = tup[0];
@@ -63,7 +64,7 @@ function run(param) {
     
   };
   try {
-    return FileSystem.installAndThen("elm-gen" + ".json", generate);
+    return FileSystem.installAndThen(elmGen + ".json", generate);
   }
   catch (raw_err){
     var err = Caml_js_exceptions.internalToOCamlException(raw_err);

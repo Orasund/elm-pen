@@ -2,7 +2,7 @@ type child_process = {exec: (. string) => unit}
 @module external spawn: child_process = "child_process"
 
 let run = () => {
-  let elmGen = "elm-gen"
+  let elmGen = "elm-pen"
 
   let copyAndRead: (string, string) => option<string> = (file, copyFrom) => {
     switch FileSystem.read(file) {
@@ -54,7 +54,7 @@ let run = () => {
   }
 
   let generate = (json, templatesFrom) => {
-    let errorMessage = string => `❌ field ${string} is missing in elm-gen.json`
+    let errorMessage = string => `❌ field ${string} is missing in ${elmGen}.json`
     let generateInto = json["generateInto"]->Util.getOrThrow(errorMessage("generateInto"))
     let moduleBase = json["moduleBase"]->Util.getOrThrow(errorMessage("moduleBase"))
 

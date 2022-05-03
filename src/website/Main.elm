@@ -11,7 +11,7 @@ import Template.Writer
 
 main : ElmBook.Book msg
 main =
-    ElmBook.book "Elm-Gen"
+    ElmBook.book "Elm-Pen"
         |> ElmBook.withThemeOptions
             [ ElmBook.ThemeOptions.useHashBasedNavigation
             , ElmBook.ThemeOptions.subtitle "Generate your own Elm modules"

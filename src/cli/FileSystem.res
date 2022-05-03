@@ -97,10 +97,10 @@ let installAndThen = (fileName, fun) => {
     }
   }
 
-  let _ = if !fs.existsSync(. fileName) {
-    copyFile(path.normalize(. `${dirName}/${fileName}`), fileName)
-  } else {
-    true
+  if !fs.existsSync(. fileName) {
+    if !copyFile(fileName, fileName) {
+      Js.Exn.raiseError(`❌ Could not copy ${path.normalize(. fileName)} into ${fileName}`)
+    }
   }
   let json: json<'whatever> = switch read(fileName) {
   | Some(string) => parseJson(string)
