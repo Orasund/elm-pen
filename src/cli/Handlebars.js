@@ -2,6 +2,7 @@
 'use strict';
 
 var Js_exn = require("rescript/lib/js/js_exn.js");
+var Js_int = require("rescript/lib/js/js_int.js");
 var Handlebars = require("handlebars");
 
 function init(param) {
@@ -16,15 +17,40 @@ function init(param) {
             return Js_exn.raiseError("can't capitalize an undefined argument");
           }
         }));
-  return Handlebars.registerHelper("decapitalize", (function (aString) {
-                if (aString !== undefined) {
-                  if (aString === "") {
-                    return Js_exn.raiseError("can't decapitalize an empty argument");
-                  } else {
-                    return aString.charAt(0).toLowerCase() + aString.substring(1);
-                  }
+  Handlebars.registerHelper("decapitalize", (function (aString) {
+          if (aString !== undefined) {
+            if (aString === "") {
+              return Js_exn.raiseError("can't decapitalize an empty argument");
+            } else {
+              return aString.charAt(0).toLowerCase() + aString.substring(1);
+            }
+          } else {
+            return Js_exn.raiseError("can't decapitalize an undefined argument");
+          }
+        }));
+  Handlebars.registerHelper("eq", (function (optionI, optionJ) {
+          if (optionI !== undefined) {
+            if (optionJ !== undefined) {
+              return Js_int.equal(optionI, optionJ);
+            } else {
+              return Js_exn.raiseError("second argument of eq is null");
+            }
+          } else {
+            return Js_exn.raiseError("first argument of eq is null");
+          }
+        }));
+  Handlebars.registerHelper("or", (function (a, b) {
+          if (Handlebars.Utils.isEmpty(a)) {
+            return !Handlebars.Utils.isEmpty(b);
+          } else {
+            return true;
+          }
+        }));
+  return Handlebars.registerHelper("and", (function (a, b) {
+                if (Handlebars.Utils.isEmpty(a)) {
+                  return false;
                 } else {
-                  return Js_exn.raiseError("can't decapitalize an undefined argument");
+                  return !Handlebars.Utils.isEmpty(b);
                 }
               }));
 }

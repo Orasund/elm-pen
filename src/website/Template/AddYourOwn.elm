@@ -31,8 +31,11 @@ You can now extend the template and add any needed variables into the `elm-pen.j
 
 We are using [handlebars.js](https://handlebarsjs.com/guide/) as template language.
 
-Additionally, we included two special helper functions: `capitalize` and `decapitalize`
+Additionally, we have specified a few custom helpers.
 
-* **capitalize** will make the first letter of the string into an uppercase
-* **decapitalize** will make the first letter of the string into a lowercase
+* **capitalize** will make the first letter of the string into an uppercase.
+* **decapitalize** will make the first letter of the string into a lowercase.
+* **eq** takes two integers and returns if they are equal. Should be used with @index.
+* **and** takes two values and return if they both are "not empty". Essentially the same as combining two if statements.
+* **or** same as for `and` but returns if either is not empty.
 """

@@ -1,10 +1,11 @@
 //Import Handlebars.js
-type t<'a> = {
-  registerHelper: (. string, option<string> => string) => unit,
+type t<'a, 'whatever> = {
+  registerHelper: (. string, 'whatever) => unit,
   compile: (. string, {"strict": bool, "noEscape": bool}, . 'a) => string,
 }
-@module external handlebars: t<'whatever> = "handlebars"
+@module external handlebars: t<'whatever, 'whatever> = "handlebars"
 
+@val external isEmpty: 'whatever => bool = "Handlebars.Utils.isEmpty"
 /**
  * Register additional functions to handlebars
  */
@@ -26,6 +27,19 @@ let init = () => {
       Js.String.charAt(0, string)->Js.String.toLowerCase ++
         Js.String.substringToEnd(~from=1, string)
     }
+  })
+  handlebars.registerHelper(."eq", (. optionI: option<int>, optionJ: option<int>) => {
+    switch (optionI, optionJ) {
+    | (None, _) => Js.Exn.raiseError("first argument of eq is null")
+    | (Some(_), None) => Js.Exn.raiseError("second argument of eq is null")
+    | (Some(i), Some(j)) => Js.Int.equal(i, j)
+    }
+  })
+  handlebars.registerHelper(."or", (. a: 'whatever, b: 'whatever) => {
+    !isEmpty(a) || !isEmpty(b)
+  })
+  handlebars.registerHelper(."and", (. a: 'whatever, b: 'whatever) => {
+    !isEmpty(a) && !isEmpty(b)
   })
 }
 
