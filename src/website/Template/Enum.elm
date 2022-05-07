@@ -16,13 +16,21 @@ You will have to add the `core/json` dependency to your elm.json file.
 
 ## JSON Structure
 
-The Enum templates needs the following json structure:
+The Enum templates needs the following json schema:
 
 ``` 
 {
-    "variants": List String,
-    "isCyclic": Maybe Bool,
-    "withJsonConverters": Maybe Bool
+    "type": "object",
+    "properties": {
+      "variants": {
+        "type": "array",
+        "items": { "type": "string" },
+        "minItems": 1
+      },
+      "isCyclic": { "type": "boolean" },
+      "withJsonConverters": { "type": "boolean" }
+    },
+    "required": ["variants"]
 }
 ```
 

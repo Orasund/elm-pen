@@ -26,6 +26,7 @@
   },
   "homepage": "https://orasund.github.io/elm-pen",
   "dependencies": {
+    "ajv": "^8.11.0",
     "fs-extra": "^10.1.0",
     "handlebars": "^4.7.7",
     "rescript": "*"

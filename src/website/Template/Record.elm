@@ -15,20 +15,31 @@ You will have to add the `core/json` dependency to your elm.json file.
 
 ## JSON Structure
 
-The Record templates needs the following json structure:
+The Record templates needs the following json schema:
 
 ``` 
 {
-    "imports": Maybe (List String),
-    "fields": 
-        List 
-            { "name" : String
-            , "type": String 
-            , "jsonDecoder" : String
-            , "jsonEncoder" : String
-            },
-    "withJsonDecoder" : Maybe Bool,
-    "withJsonDecoder" : Maybe Bool
+    "type": "object",
+    "properties": {
+      "imports": { "type": "array", "items": { "type": "string" } },
+      "fields": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "type": { "type": "string" },
+            "jsonDecoder": { "type": "string" },
+            "jsonEncoder": { "type": "string" }
+          },
+          "required": ["name", "type"]
+        },
+        "minItems": 1
+      },
+      "withJsonDecoder": { "type": "boolean" },
+      "withJsonEncoder": { "type": "boolean" }
+    },
+    "required": ["fields"]
 }
 ```
 

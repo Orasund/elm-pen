@@ -17,12 +17,24 @@ The Writer templates needs the following json structure:
 
 ``` 
 {
-    "imports": Maybe (List String),
-    "variants": {
-        "name": String,
-        "type": Maybe String,
-        "polymorphic": Maybe Bool,
-    }
+    "type": "object",
+    "properties": {
+      "imports": { "type": "array", "items": { "type": "string" } },
+      "variants": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "type": { "type": "string" },
+            "polymorphic": { "type": "boolean" }
+          },
+          "required": ["name"]
+        },
+        "minItems": 1
+      }
+    },
+    "required": ["variants"]
 }
 ```
 
