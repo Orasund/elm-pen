@@ -46,9 +46,9 @@ This module contains the {{moduleName}} {{template}}.
 
 -}
 
-{{#imports}}
+{{#if imports}}{{#imports}}
 import {{.}}
-{{/imports}}
+{{/imports}}{{/if}}
 {{#if withJsonEncoder}}import Json.Encode as E{{/if}}
 {{#if withJsonDecoder}}import Json.Decode as D{{/if}}
 

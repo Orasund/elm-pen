@@ -5,11 +5,11 @@ module {{moduleBase}}.{{template}}.{{moduleName}} exposing (..)
 This module contains the {{moduleName}} {{template}}.
 
     type {{moduleName}}
-{{#sorts}}
+{{#variants}}
 {{#if @first}}        = {{.}}
 {{else}}        | {{.}}
 {{/if}}
-{{/sorts}}
+{{/variants}}
 
 
 # Basics
@@ -45,38 +45,38 @@ import Json.Encode
 {-| {{moduleName}} type.
 -}
 type {{moduleName}}
-{{#sorts}}
+{{#variants}}
 {{#if @first}}   = {{.}}
 {{else}}   | {{.}}
 {{/if}}
-{{/sorts}}
+{{/variants}}
 
 
 {-| Lists all possible values of {{moduleName}}
 
     asList : List {{moduleName}}
     asList =
-{{#sorts}}{{#if @first}}        [ {{.}}{{else}}
-        , {{.}}{{/if}}{{/sorts}}
+{{#variants}}{{#if @first}}        [ {{.}}{{else}}
+        , {{.}}{{/if}}{{/variants}}
         ]
 
 -}
 asList : List {{moduleName}}
 asList =
-{{#sorts}}{{#if @first}}    [ {{.}}{{else}}
-    , {{.}}{{/if}}{{/sorts}}
+{{#variants}}{{#if @first}}    [ {{.}}{{else}}
+    , {{.}}{{/if}}{{/variants}}
     ]
 
 {-| Get the first constructor of the {{moduleName}}
 
     first : {{moduleName}}
     first =
-        {{#sorts}}{{#if @first}}{{.}}{{/if}}{{/sorts}}
+        {{#variants}}{{#if @first}}{{.}}{{/if}}{{/variants}}
 
 -}
 first : {{moduleName}}
 first =
-    {{#sorts}}{{#if @first}}{{.}}{{/if}}{{/sorts}}
+    {{#variants}}{{#if @first}}{{.}}{{/if}}{{/variants}}
 
 {-| Get the next {{moduleName}}.
 
@@ -88,7 +88,7 @@ next {{decapitalize moduleName}} =
         |> toInt
         |> (+) 1
         |> fromInt
-        {{#if isCyclic}}|> Maybe.withDefault {{#sorts}}{{#if @first}}{{.}}{{/if}}{{/sorts}}{{/if}}
+        {{#if isCyclic}}|> Maybe.withDefault {{#variants}}{{#if @first}}{{.}}{{/if}}{{/variants}}{{/if}}
 
 {-| Get the next {{moduleName}}.
 
@@ -100,18 +100,18 @@ prev {{decapitalize moduleName}} =
         |> toInt
         |> (+) -1
         |> fromInt
-        {{#if isCyclic}}|> Maybe.withDefault {{#sorts}}{{#if @last}}{{.}}{{/if}}{{/sorts}}{{/if}}
+        {{#if isCyclic}}|> Maybe.withDefault {{#variants}}{{#if @last}}{{.}}{{/if}}{{/variants}}{{/if}}
 
 {-| Get the last constructor of the {{moduleName}}
 
     last : {{moduleName}}
     last =
-        {{#sorts}}{{#if @last}}{{.}}{{/if}}{{/sorts}}
+        {{#variants}}{{#if @last}}{{.}}{{/if}}{{/variants}}
 
 -}
 last : {{moduleName}}
 last =
-    {{#sorts}}{{#if @last}}{{.}}{{/if}}{{/sorts}}
+    {{#variants}}{{#if @last}}{{.}}{{/if}}{{/variants}}
 
 -------------------------------------------------------------------------------
 -- CONVERTERS
@@ -123,10 +123,10 @@ last =
     toInt : {{moduleName}} -> Int
     toInt arg =
         case arg of
-{{#sorts}}
+{{#variants}}
             {{.}} -> 
                 {{@index}}
-{{/sorts}}
+{{/variants}}
 
 If you need to convert all values of {{moduleName}} into ints, use `asList` instead.
 
@@ -137,10 +137,10 @@ If you need to convert all values of {{moduleName}} into ints, use `asList` inst
 toInt : {{moduleName}} -> Int
 toInt {{decapitalize moduleName}} =
     case {{decapitalize moduleName}} of
-{{#sorts}}
+{{#variants}}
         {{.}} -> 
             {{@index}}
-{{/sorts}}
+{{/variants}}
 
 {-| Convert `Int` into `{{moduleName}}`
 
@@ -149,10 +149,10 @@ Returns `Nothing` if the values is out of bounds.
     fromInt : Int -> Maybe {{moduleName}}
     fromInt int =
         case int of
-    {{#sorts}}
+    {{#variants}}
             {{@index}} -> 
                 Just {{.}} 
-    {{/sorts}}
+    {{/variants}}
             _ -> 
                 Nothing
 
@@ -160,10 +160,10 @@ Returns `Nothing` if the values is out of bounds.
 fromInt : Int -> Maybe {{moduleName}}
 fromInt int =
     case int of
-{{#sorts}}
+{{#variants}}
         {{@index}} -> 
             Just {{.}} 
-{{/sorts}}
+{{/variants}}
         _ -> 
             Nothing
     
@@ -172,19 +172,19 @@ fromInt int =
     toString : {{moduleName}} -> String
     toString arg =
         case arg of
-{{#sorts}}
+{{#variants}}
             {{.}} -> 
                 "{{.}}"
-{{/sorts}}
+{{/variants}}
 
 -}
 toString : {{moduleName}} -> String
 toString {{decapitalize moduleName}} =
     case {{decapitalize moduleName}} of
-{{#sorts}}
+{{#variants}}
         {{.}} -> 
             "{{.}}"
-{{/sorts}}
+{{/variants}}
 
 {-| Convert a String into a {{moduleName}}
 
@@ -193,20 +193,20 @@ Returns Nothing if the string is not valid.
     fromString : String -> Maybe {{moduleName}}
     fromString arg =
         case arg of
-{{#sorts}}
+{{#variants}}
             "{{.}}" -> 
                 Just {{.}} 
-{{/sorts}}
+{{/variants}}
             _ -> 
                 Nothing
 -}
 fromString : String -> Maybe {{moduleName}}
 fromString string =
     case string of
-{{#sorts}}
+{{#variants}}
         "{{.}}" -> 
             Just {{.}} 
-{{/sorts}}
+{{/variants}}
         _ -> 
             Nothing
 
@@ -239,13 +239,13 @@ encoder {{decapitalize moduleName}} =
 
     decoder : Json.Decode.Decoder {{moduleName}}
     decoder =
-        "{{moduleName}} expected. Valid values are {{#sorts}}{{#if @first}}{{else}}{{#if @last}} and {{else}}, {{/if}}{{/if}}\"{{.}}\"{{/sorts}}"
+        "{{moduleName}} expected. Valid values are {{#variants}}{{#if @first}}{{else}}{{#if @last}} and {{else}}, {{/if}}{{/if}}\"{{.}}\"{{/variants}}"
             |> decoderWithError
 
 -}
 decoder : Json.Decode.Decoder {{moduleName}}
 decoder =
-    "{{moduleName}} expected. Valid values are {{#sorts}}{{#if @first}}{{else}}{{#if @last}} and {{else}}, {{/if}}{{/if}}\"{{.}}\"{{/sorts}}"
+    "{{moduleName}} expected. Valid values are {{#variants}}{{#if @first}}{{else}}{{#if @last}} and {{else}}, {{/if}}{{/if}}\"{{.}}\"{{/variants}}"
         |> decoderWithError
 
 

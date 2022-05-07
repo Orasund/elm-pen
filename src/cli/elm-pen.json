@@ -45,6 +45,10 @@
     },
     "RemoteData": {
       "Union": {
+        "imports": [
+          "Array exposing (Array)",
+          "Gen.Enum.Weekday as Weekday exposing (Weekday)"
+        ],
         "sorts": [
           { "name": "Waiting" },
           { "name": "Result", "type": "Result String", "polymorphic": true },

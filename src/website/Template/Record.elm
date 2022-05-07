@@ -19,7 +19,7 @@ The Record templates needs the following json structure:
 
 ``` 
 {
-    "imports": List String,
+    "imports": Maybe (List String),
     "fields": 
         List 
             { "name" : String
@@ -32,7 +32,7 @@ The Record templates needs the following json structure:
 }
 ```
 
-* The `imports` field contains normal imports.
+* The optional `imports` field contains normal imports.
 * The `fields` field is a list of the fields with
   * The `name` of the field.
   * The `type` of the field. Type variables are NOT supported!

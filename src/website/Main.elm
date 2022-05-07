@@ -6,7 +6,7 @@ import ElmBook.ThemeOptions
 import Template.AddYourOwn
 import Template.Enum
 import Template.Record
-import Template.Writer
+import Template.Union
 
 
 main : ElmBook.Book msg
@@ -21,7 +21,7 @@ main =
             , ( "Templates"
               , [ Template.Enum.chapter
                 , Template.Record.chapter
-                , Template.Writer.chapter
+                , Template.Union.chapter
                 , Template.AddYourOwn.chapter
                 ]
               )
