@@ -6,7 +6,7 @@
   "modules": {
     "Weekday": {
       "Enum": {
-        "sorts": [
+        "variants": [
           "Monday",
           "Tuesday",
           "Wednesday",
@@ -45,11 +45,7 @@
     },
     "RemoteData": {
       "Union": {
-        "imports": [
-          "Array exposing (Array)",
-          "Gen.Enum.Weekday as Weekday exposing (Weekday)"
-        ],
-        "sorts": [
+        "variants": [
           { "name": "Waiting" },
           { "name": "Result", "type": "Result String", "polymorphic": true },
           { "name": "Failure", "type": "String" },
