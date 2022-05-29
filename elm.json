@@ -1,6 +1,9 @@
 {
   "type": "application",
-  "source-directories": ["elm-pen/generated", "src/website"],
+  "source-directories": [
+    "elm-pen/generated",
+    "src/website"
+  ],
   "elm-version": "0.19.1",
   "dependencies": {
     "direct": {

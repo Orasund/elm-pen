@@ -8,8 +8,8 @@ chapter =
     ElmBook.Chapter.chapter "Enum"
         |> ElmBook.Chapter.render """
 
-The Enum template creates a new type containing the Constructurs specified in `sorts`.
-Additionally, it add utillity functions like converters from and to Int and String.
+The Enum template creates a new type containing the constructors specified in `variants`.
+Additionally, it adds utility functions like converters from and to Int and String.
 
 If `withJsonConverters` is set to true, it will generate JSON converters.
 You will have to add the `core/json` dependency to your elm.json file.

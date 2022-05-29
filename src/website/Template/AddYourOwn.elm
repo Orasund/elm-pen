@@ -29,9 +29,9 @@ To test your new template, add an entry to the `elm-pen.json` file.
 
 You can now extend the template and add any needed variables into the `elm-pen.json` file.
 
-We are using [handlebars.js](https://handlebarsjs.com/guide/) as template language.
+Note that we are using [handlebars.js](https://handlebarsjs.com/guide/) as template language.
 
-Additionally, we have specified a few custom helpers.
+Additionally, elm-pen comes with a few custom helpers out of the box.
 
 * **capitalize** will make the first letter of the string into an uppercase.
 * **decapitalize** will make the first letter of the string into a lowercase.

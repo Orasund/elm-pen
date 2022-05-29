@@ -10,12 +10,13 @@ chapter =
 
 Elm-pen is a small CLI tool that lets you generate elm-files using [Handlebars.js](https://handlebarsjs.com/guide/).
 
-It comes with a few templates out of the box (see Templates section),
-but you can also add your own templates or change the existing ones if you want.
+It comes with a few templates out of the box (see the Templates section).
+
+You can also add your own templates or change the existing ones if you want.
 
 **This project is still in an alpha phase.**
 If you encounter bugs or have issues setting it up, then you will have to fix it yourself.
-I kindly ask you to also add an [issue on GitHub](https://github.com/Orasund/elm-pen/issues/new) and a pull request once you fixed it, so that i know what went wrong.
+I kindly ask you to also add an [issue on GitHub](https://github.com/Orasund/elm-pen/issues/new), so that i know what went wrong.
 
 ## Installation
 
@@ -23,9 +24,11 @@ I kindly ask you to also add an [issue on GitHub](https://github.com/Orasund/elm
 
 ## Generating Files
 
+Use the following command to start generating files.
+
 ```elm-pen```
 
-On the first run, it will generate a `elm-pen.json` aswell as some example files.
+On the first run, it will generate a `elm-pen.json` file as well as some example files.
 
 ## Configuration
 

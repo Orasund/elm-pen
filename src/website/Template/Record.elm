@@ -8,10 +8,9 @@ chapter =
     ElmBook.Chapter.chapter "Record"
         |> ElmBook.Chapter.render """
 
-The Record template creates a new record alias and getters, setters and mappers for all fields.
+The Record template creates a new record alias with getters, setters and mappers for all fields.
 
 If `withJsonDecoder` or `withJsonEncoder` is set to true, it will generate JSON decoders and encoders respectively.
-You will have to add the `core/json` dependency to your elm.json file.
 
 ## JSON Structure
 
@@ -51,8 +50,8 @@ The Record templates needs the following json schema:
     If `withJsonDecoder` is true, then all fields need a json decoder
   * The `jsonEncoder` of the type.
     If `withJsonEncoder` is true, then all fields need a json encoder
-* The optional `withJsonDecoder` field states if the decoder should be generated aswell.
-* The optional `withJsonEncoder` field states if the encoder should be generated aswell.
+* The optional `withJsonDecoder` field states if the decoder should be generated as well.
+* The optional `withJsonEncoder` field states if the encoder should be generated as well.
 
 Example:
 
