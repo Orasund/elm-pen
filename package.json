@@ -7,7 +7,7 @@
     "src/cli/"
   ],
   "scripts": {
-    "prepublish": "rescript",
+    "prepublishOnly": "rescript",
     "build": "rescript",
     "clean": "rescript clean -with-deps",
     "start": "rescript build -w"
